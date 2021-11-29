@@ -208,6 +208,10 @@ void OledDriver::FillColor(Color rgb888)
 
 void OledDriver::SetCoordinates(uint16_t x, uint16_t y)
 {
+  if (rotation_ & 1)
+  {
+	  swap(x, y);
+  }
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
     return;
   //Set x and y coordinate
@@ -222,6 +226,10 @@ void OledDriver::SetCoordinates(uint16_t x, uint16_t y)
 
 void OledDriver::SetAddress(uint8_t column, uint8_t row)
 {
+  if (rotation_ & 1)
+  {
+	swap(column, row);
+  }
   WriteCommand(SSD1351_CMD_SETCOLUMN);
   WriteData(column);	//X start
   WriteData(column);	//X end
@@ -264,6 +272,10 @@ void OledDriver::Invert(bool v)
 
 void OledDriver::DrawPixel(int16_t x, int16_t y)
 {
+  if (rotation_ & 1)
+  {
+	  swap(x, y);
+  }
   // Bounds check.
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
   {
@@ -321,7 +333,9 @@ void OledDriver::DeviceInit(void)
   WriteData(0x7F);
 
   WriteCommand(SSD1351_CMD_SETREMAP);  //set re-map & data format
-  WriteData(0x41);     //Horizontal address increment
+  //	 	0b01110100
+  rotation_ = 1;
+  WriteData(0b01100100 | 0b00010011);     //Horizontal address increment
 
   WriteCommand(SSD1351_CMD_STARTLINE);  //set display start line
   WriteData(0x7F);     //start 00 line
@@ -368,9 +382,21 @@ void OledDriver::DeviceInit(void)
   WriteCommand(0xaf);	 //display on
 }
 
+
 // Draw a horizontal line ignoring any screen rotation.
 void OledDriver::DrawFastHLine(int16_t x, int16_t y, int16_t length)
 {
+  if (!orientation_checked_)
+  {
+    if (rotation_ & 1)
+    {
+      orientation_checked_ = true;
+      DrawFastVLine(y, x, length);
+      orientation_checked_ = false;
+	  return;
+    }
+  }
+
   // Bounds check
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
   {
@@ -407,6 +433,16 @@ void OledDriver::DrawFastHLine(int16_t x, int16_t y, int16_t length)
 // Draw a vertical line ignoring any screen rotation.
 void OledDriver::DrawFastVLine(int16_t x, int16_t y, int16_t length)
 {
+  if (!orientation_checked_)
+  {
+    if (rotation_ & 1)
+    {
+      orientation_checked_ = true;
+	  DrawFastHLine(y, x, length);
+	  orientation_checked_ = false;
+	  return;
+    }
+  }
   // Bounds check
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
   {

@@ -233,6 +233,11 @@ void OledGfx::DrawRect(int16_t x, int16_t y, int16_t w, int16_t h)
 /**************************************************************************/
 void OledGfx::FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 {
+  if (rotation_ & 1)
+  {
+	  swap(x, y);
+	  swap(w, h);
+  }
 
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
     return;

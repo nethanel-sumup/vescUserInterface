@@ -27,6 +27,7 @@
 #include "spi.h"
 #include "usart.h"
 #include "gpio.h"
+#include "app_touchgfx.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -106,6 +107,7 @@ int main(void)
   MX_CRC_Init();
   MX_RTC_Init();
   MX_USART1_UART_Init();
+  MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */

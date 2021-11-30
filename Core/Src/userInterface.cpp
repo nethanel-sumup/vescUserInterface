@@ -3,6 +3,9 @@
 #include <drivers/oledGfx.h>
 #include <stdio.h>
 
+#include <cmsis_os2.h>
+#include <touchgfx/hal/OSWrappers.hpp>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -82,26 +85,27 @@ void ui_print_esc_values(mc_values *val)
 void draw_battery(void)
 {
   context.screenDriver.SetColor(OledDriver::Color::White);
-  context.screenDriver.DrawFastHLine(2, 5, 13);
-  context.screenDriver.DrawFastHLine(2, 6, 13);
-  context.screenDriver.DrawFastHLine(24, 5, 13);
-  context.screenDriver.DrawFastHLine(24, 6, 13);
 
-  context.screenDriver.DrawFastHLine(14, 1, 11);
-  context.screenDriver.DrawFastHLine(14, 2, 11);
-
-  context.screenDriver.DrawFastHLine(2, 70, 13);
-  context.screenDriver.DrawFastHLine(2, 71, 13);
-  context.screenDriver.DrawFastHLine(24, 70, 13);
-  context.screenDriver.DrawFastHLine(24, 71, 13);
-
-  context.screenDriver.DrawFastVLine(14, 1, 5);
-  context.screenDriver.DrawFastVLine(24, 1, 5);
-
-  context.screenDriver.DrawFastVLine(3, 6, 64);
-  context.screenDriver.DrawFastVLine(2, 6, 64);
-  context.screenDriver.DrawFastVLine(35, 6, 64);
-  context.screenDriver.DrawFastVLine(36, 6, 64);
+  context.screenDriver.DrawFastHLine(2, 5, 26);
+//  context.screenDriver.DrawFastHLine(2, 6, 26);
+//  context.screenDriver.DrawFastHLine(24, 5, 13);
+//  context.screenDriver.DrawFastHLine(24, 6, 13);
+//
+//  context.screenDriver.DrawFastHLine(16, 1, 10);
+//  //context.screenDriver.DrawFastHLine(14, 2, 11);
+//
+//  context.screenDriver.DrawFastHLine(2, 70, 13);
+//  context.screenDriver.DrawFastHLine(2, 71, 13);
+//  context.screenDriver.DrawFastHLine(24, 70, 13);
+//  context.screenDriver.DrawFastHLine(24, 71, 13);
+//
+//  context.screenDriver.DrawFastVLine(14, 2, 4);
+//  context.screenDriver.DrawFastVLine(24, 2, 4);
+//
+//  context.screenDriver.DrawFastVLine(3, 6, 64);
+//  context.screenDriver.DrawFastVLine(2, 6, 64);
+//  context.screenDriver.DrawFastVLine(35, 6, 64);
+//  context.screenDriver.DrawFastVLine(36, 6, 64);
 }
 
 static int sof2battery_level(int stateOfCharge)
@@ -180,6 +184,11 @@ void ui_fill_battery(int stateOfCharge)
   {
     context.screenDriver.FillRect(6, 57, 27, 10, OledDriver::Color::Red);
   }
+}
+
+void signal_vsync(void)
+{
+	touchgfx::OSWrappers::signalVSync();
 }
 
 #ifdef __cplusplus

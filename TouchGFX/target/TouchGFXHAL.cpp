@@ -6,31 +6,44 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
 #include <TouchGFXHAL.hpp>
 
 /* USER CODE BEGIN TouchGFXHAL.cpp */
+#include <touchgfx/hal/OSWrappers.hpp>
+#include <gui/common/FrontendHeap.hpp>
 
 using namespace touchgfx;
 
+
 void TouchGFXHAL::initialize()
 {
+	screen_driver_ = OledGfx();
+	screen_driver_.DeviceInit();
     // Calling parent implementation of initialize().
     //
     // To overwrite the generated implementation, omit call to parent function
     // and implemented needed functionality here.
     // Please note, HAL::initialize() must be called to initialize the framework.
 
-    TouchGFXGeneratedHAL::initialize();
+	HAL::initialize();
+	registerEventListener(*(Application::getInstance()));
+	setFrameBufferStartAddresses((void*)frame_buffer_, (void*)0, (void*)0);
+	/*
+	 * Set whether the DMA transfers are locked to the TFT update cycle. If
+	 * locked, DMA transfer will not begin until the TFT controller has finished
+	 * updating the display. If not locked, DMA transfers will begin as soon as
+	 * possible. Default is true (DMA is locked with TFT).
+	 */
+	lockDMAToFrontPorch(false);
 }
 
 /**
@@ -81,8 +94,17 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
     // To calculate he start adress of rect,
     // use advanceFrameBufferToRect(uint8_t* fbPtr, const touchgfx::Rect& rect)
     // defined in TouchGFXGeneratedHAL.cpp
+	screen_driver_.SetAddrWindow(rect.x, rect.y, rect.width, rect.height);
 
-    TouchGFXGeneratedHAL::flushFrameBuffer(rect);
+	uint16_t *ptr;
+
+	for (int h = 0; h < rect.height; h++)
+	{
+		ptr = getClientFrameBuffer() + rect.x + (h + rect.y) * HAL::DISPLAY_WIDTH;
+		screen_driver_.WriteMultipleData(ptr, rect.width);
+	}
+
+	HAL::flushFrameBuffer(rect);
 }
 
 bool TouchGFXHAL::blockCopy(void* RESTRICT dest, const void* RESTRICT src, uint32_t numBytes)

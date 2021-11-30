@@ -13,11 +13,13 @@ class FlashDataReader;
 
 struct Typography
 {
+    static const touchgfx::FontId TYPOGRAPHY_00 = 0;
 };
 
 struct TypographyFontIndex
 {
-    static const uint16_t NUMBER_OF_FONTS = 0;
+    static const touchgfx::FontId TYPOGRAPHY_00 = 0; // NotoMono_Regular_20_4bpp
+    static const uint16_t NUMBER_OF_FONTS = 1;
 };
 
 class ApplicationFontProvider : public touchgfx::FontProvider

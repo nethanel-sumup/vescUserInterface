@@ -32,11 +32,14 @@
 #include <string.h>
 #include <stdio.h>
 #include <userInterface.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -75,6 +78,13 @@ const osThreadAttr_t UartPktProc_attributes = {
   .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityLow,
 };
+/* Definitions for TouchGFXTask */
+osThreadId_t TouchGFXTaskHandle;
+const osThreadAttr_t TouchGFXTask_attributes = {
+  .name = "TouchGFXTask",
+  .stack_size = 1024 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -84,6 +94,7 @@ extern void rxchar(UART_HandleTypeDef *uartp, uint16_t c);
 void StartDefaultTask(void *argument);
 extern void uart_timer(void *argument);
 extern void uart_packet_process(void *argument);
+extern void TouchGFX_Task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -140,6 +151,9 @@ void MX_FREERTOS_Init(void) {
   /* creation of UartPktProc */
   UartPktProcHandle = osThreadNew(uart_packet_process, NULL, &UartPktProc_attributes);
 
+  /* creation of TouchGFXTask */
+  TouchGFXTaskHandle = osThreadNew(TouchGFX_Task, NULL, &TouchGFXTask_attributes);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -179,22 +193,23 @@ void bldc_val_received(mc_values *val)
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN StartDefaultTask */
-  //comm_uart_init();
+  comm_uart_init();
 
   // Give bldc_interface a function to call when values are received.
-  //bldc_interface_set_rx_value_func(ui_print_esc_values);
+  bldc_interface_set_rx_value_func(ui_print_esc_values);
 
-  //HAL_UART_Receive_IT(&huart2, &_received_char, 1);
+  HAL_UART_Receive_IT(&huart2, &_received_char, 1);
 
-  ui_initialize();
-  ui_fill_battery(100);
+  //ui_initialize();
+  //ui_fill_battery(100);
 
   /* Infinite loop */
   for(;;)
   {
     //bldc_interface_get_values();
-
+	signal_vsync();
     osDelay(1000);
+
   }
   /* USER CODE END StartDefaultTask */
 }
@@ -206,6 +221,9 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   rxchar(&huart2, _received_char);
   HAL_UART_Receive_IT(&huart2, &_received_char, 1);
 }
+
+#ifdef __cplusplus
+}
+#endif
 /* USER CODE END Application */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

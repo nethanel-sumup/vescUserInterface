@@ -53,7 +53,6 @@ class OledGfx : public virtual OledDriver
     void DrawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 
     void PrintString(uint8_t x, uint8_t y, const uint8_t *text, const FontSize size, const Color color);
-    void DisplayString(int x, int y, const void* text, const FontInfo info);
     void DisplayString5x8(uint8_t x, uint8_t y, const uint8_t *text);
     void DisplayString8x16(uint8_t x, uint8_t y, const uint8_t *text);
 

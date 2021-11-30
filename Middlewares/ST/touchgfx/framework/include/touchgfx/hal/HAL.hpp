@@ -87,7 +87,7 @@ public:
           requestedOrientation(ORIENTATION_LANDSCAPE),
           displayOrientationChangeRequested(false),
           useAuxiliaryLCD(false),
-          useDMAAcceleration(true),
+          useDMAAcceleration(false),
           lastRenderMethod(HARDWARE)
     {
         instance = this;

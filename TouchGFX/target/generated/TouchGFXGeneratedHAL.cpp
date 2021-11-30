@@ -6,13 +6,12 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
@@ -25,13 +24,11 @@
 
 using namespace touchgfx;
 
-unsigned char frame_buffer[128 * 128 * 2];
-
 void TouchGFXGeneratedHAL::initialize()
 {
     HAL::initialize();
     registerEventListener(*(Application::getInstance()));
-    setFrameBufferStartAddresses((void*)frame_buffer, (void*)0, (void*)0);
+    setFrameBufferStartAddresses((void*)0, (void*)0, (void*)0);
     /*
      * Set whether the DMA transfers are locked to the TFT update cycle. If
      * locked, DMA transfer will not begin until the TFT controller has finished

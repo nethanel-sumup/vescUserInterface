@@ -8,22 +8,34 @@
             "Type": "Box",
             "Name": "box1",
             "Width": 128,
-            "Height": 128,
-            "Color": {
-              "Red": 95,
-              "Green": 178,
-              "Blue": 178
-            }
+            "Height": 128
           },
           {
-            "Type": "Button",
-            "Name": "button1",
-            "X": 34,
-            "Y": 34,
+            "Type": "TextArea",
+            "Name": "textArea1",
             "Width": 60,
-            "Height": 60,
-            "Pressed": "__designer\\Blue_Buttons_Round_Edge_icon_button_pressed.png",
-            "Released": "__designer\\Blue_Buttons_Round_Edge_icon_button.png"
+            "Height": 24,
+            "TextId": "__SingleUse_QTH3",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": []
+      },
+      {
+        "Name": "Screen1",
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "image1",
+            "Width": 128,
+            "Height": 128,
+            "RelativeFilename": "__designer\\Blue_Logo_touchgfx_logo.png"
           }
         ],
         "Interactions": []
@@ -36,7 +48,7 @@
       "Height": 128
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "screen",
+    "StartupScreenName": "Screen1",
     "SelectedStartupLanguage": "GB",
     "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",

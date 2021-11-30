@@ -32,43 +32,6 @@ void OledGfx::PrintString(uint8_t x, uint8_t y, const uint8_t *text, const FontS
   }
 }
 
-void OledGfx::DisplayString(int x, int y, const void* text, const FontInfo info)
-{
-  char* asciiTableChar = nullptr;
-  int n = 0;
-  constexpr char space = 0x20;
-  constexpr char tilde = 0x7E;
-
-  if (x > (OledDriver::ScreenWidth - info.width))
-  {
-    x = 0;
-  }
-
-  char* ch = (char*)text;
-
-  while (*ch++ != '\0')
-  {
-    if ((*ch >= space) && (*ch <= tilde))
-    {
-      // Compute character address into the appropriate ASCII table
-      asciiTableChar = (char*)info.asciiTable + (*ch - space);
-
-      for (int k = 0; k < info.width; k++)
-      {
-
-      }
-
-      // Increment x by a character width
-      x += info.width;
-      if (x >= OledDriver::ScreenWidth)
-      {
-        return;
-      }
-    }
-  }
-
-}
-
 void OledGfx::DisplayString8x16(uint8_t x, uint8_t y, const uint8_t *text)
 {
   uint16_t i = 0;
@@ -146,7 +109,7 @@ void OledGfx::DrawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1)
   {
     if (y0 > y1)
     {
-      swap(y0, y1);
+      OLED_SWAP(y0, y1);
     }
     DrawFastVLine(x0, y0, y1 - y0 + 1);
   }
@@ -154,7 +117,7 @@ void OledGfx::DrawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1)
   {
     if (x0 > x1)
     {
-      swap(x0, x1);
+      OLED_SWAP(x0, x1);
     }
     DrawFastHLine(x0, y0, x1 - x0 + 1);
   }
@@ -171,13 +134,13 @@ void OledGfx::WriteLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1)
 
   if (steep)
   {
-    swap(x0, y0);
-    swap(x1, y1);
+    OLED_SWAP(x0, y0);
+    OLED_SWAP(x1, y1);
   }
   if (x0 > x1)
   {
-    swap(x0, x1);
-    swap(y0, y1);
+    OLED_SWAP(x0, x1);
+    OLED_SWAP(y0, y1);
   }
 
   int16_t dx, dy;
@@ -235,8 +198,8 @@ void OledGfx::FillRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h)
 {
   if (rotation_ & 1)
   {
-	  swap(x, y);
-	  swap(w, h);
+	  OLED_SWAP(x, y);
+	  OLED_SWAP(w, h);
   }
 
   if ((x >= ScreenWidth) || (y >= ScreenHeight))

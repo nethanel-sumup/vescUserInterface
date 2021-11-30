@@ -59,7 +59,7 @@
                               | REMAP_COLOR_RGB565 )
 
 
-#define swap(a, b) { uint16_t t = a; a = b; b = t; }
+#define OLED_SWAP(a, b) { uint16_t t = a; a = b; b = t; }
 
 #define OLED_RST(x)   HAL_GPIO_WritePin(OLED_RST_GPIO_Port, OLED_RST_Pin, x)
 #define OLED_DC(x)    HAL_GPIO_WritePin(OLED_DC_GPIO_Port, OLED_DC_Pin, x)
@@ -80,8 +80,8 @@ extern "C" {
   class OledDriver
   {
     public:
-      static constexpr int ScreenWidth = 128;
-      static constexpr int ScreenHeight = 128;
+      static constexpr const int ScreenWidth = 128;
+      static constexpr const int ScreenHeight = 128;
 
       enum class Color
       {
@@ -160,15 +160,18 @@ extern "C" {
 
       void WriteText(uint8_t data1);
       void SetAddress(uint8_t column, uint8_t row);
+      void SetAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h);
 
       void SetColor(Color rgb888);
       void SetFillColor(Color rgb888);
 
       void Invert(bool v);
       void DrawPixel(int16_t x, int16_t y);
+      void DrawPixel(int x, int y, uint16_t color);
 
       void WriteData(uint8_t dat);
       void WriteData(uint8_t* dat_p, uint16_t length);
+      void WriteMultipleData(uint16_t *data, uint16_t length);
 
       void DrawFastHLine(int16_t x, int16_t y, int16_t length);
       void DrawFastVLine(int16_t x, int16_t y, int16_t length);

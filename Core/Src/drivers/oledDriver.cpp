@@ -127,39 +127,24 @@ void OledDriver::WriteData(uint8_t dat)
 void OledDriver::WriteData(uint8_t *dat_p, uint16_t length)
 {
   OLED_CS(GPIO_PIN_RESET);
-
-#if INTERFACE_4WIRE_SPI
-
   OLED_DC(GPIO_PIN_SET);
 
   while (HAL_SPI_Transmit(&hspi1, dat_p, length, 0x10) != HAL_OK);
 
   OLED_DC(GPIO_PIN_RESET);
-
-#elif INTERFACE_3WIRE_SPI
-
-  uint8_t i,j;
-	uint16_t hwData = 0;
-
-
-  for(i = 0; i < length; i++) {
-
-    hwData = (uint16_t)dat_p[i] | 0x0100;
-
-    for(j = 0; j < 9; j ++) {
-      OLED_SCK(GPIO_PIN_RESET);
-      if(hwData & 0x0100) {
-        OLED_DIN(GPIO_PIN_SET);
-      } else {
-        OLED_DIN(GPIO_PIN_RESET);
-      }
-      OLED_SCK(GPIO_PIN_SET);
-      hwData <<= 1;
-    }
-  }
-#endif
-
   OLED_CS(GPIO_PIN_SET);
+}
+
+void OledDriver::WriteMultipleData(uint16_t *data, uint16_t length)
+{
+	OLED_CS(GPIO_PIN_RESET);
+	OLED_DC(GPIO_PIN_SET);
+
+
+	while (HAL_SPI_Transmit(&hspi1, (uint8_t *)data, length * 2, 0x10) != HAL_OK);
+
+	OLED_DC(GPIO_PIN_RESET);
+	OLED_CS(GPIO_PIN_SET);
 }
 
 void OledDriver::RAMAddress(void)
@@ -208,10 +193,10 @@ void OledDriver::FillColor(Color rgb888)
 
 void OledDriver::SetCoordinates(uint16_t x, uint16_t y)
 {
-  if (rotation_ & 1)
-  {
-	  swap(x, y);
-  }
+//  if (rotation_ & 1)
+//  {
+//	  swap(x, y);
+//  }
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
     return;
   //Set x and y coordinate
@@ -224,12 +209,30 @@ void OledDriver::SetCoordinates(uint16_t x, uint16_t y)
   WriteCommand(SSD1351_CMD_WRITERAM);
 }
 
+void OledDriver::SetAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h)
+{
+
+  uint16_t x2 = x1 + w - 1, y2 = y1 + h - 1;
+//  if (rotation & 1)
+//  { // Vertical address increment mode
+//    swap(x1, y1);
+//    swap(x2, y2);
+//  }
+  WriteCommand(SSD1351_CMD_SETCOLUMN); // X range
+  WriteData(x1);
+  WriteData(x2);
+  WriteCommand(SSD1351_CMD_SETROW); // Y range
+  WriteData(y1);
+  WriteData(y2);
+  WriteCommand(SSD1351_CMD_WRITERAM); // Begin write
+}
+
 void OledDriver::SetAddress(uint8_t column, uint8_t row)
 {
-  if (rotation_ & 1)
-  {
-	swap(column, row);
-  }
+//  if (rotation_ & 1)
+//  {
+//	swap(column, row);
+//  }
   WriteCommand(SSD1351_CMD_SETCOLUMN);
   WriteData(column);	//X start
   WriteData(column);	//X end
@@ -272,24 +275,31 @@ void OledDriver::Invert(bool v)
 
 void OledDriver::DrawPixel(int16_t x, int16_t y)
 {
-  if (rotation_ & 1)
-  {
-	  swap(x, y);
-  }
+//  if (rotation_ & 1)
+//  {
+//	  swap(x, y);
+//  }
   // Bounds check.
-  if ((x >= ScreenWidth) || (y >= ScreenHeight))
-  {
-    return;
-  }
-  if ((x < 0) || (y < 0))
-  {
-    return;
-  }
+//  if ((x >= ScreenWidth) || (y >= ScreenHeight))
+//  {
+//    return;
+//  }
+//  if ((x < 0) || (y < 0))
+//  {
+//    return;
+//  }
 
   SetAddress(x, y);
 
   // transfer data
   WriteData(_ColorBuffer, 2);
+}
+
+void OledDriver::DrawPixel(int x, int y, uint16_t color)
+{
+	SetAddress(x, y);
+	// transfer data
+	WriteData(reinterpret_cast<unsigned char *>(&color), 2);
 }
 
 void OledDriver::DeviceInit(void)
@@ -334,11 +344,11 @@ void OledDriver::DeviceInit(void)
 
   WriteCommand(SSD1351_CMD_SETREMAP);  //set re-map & data format
   //	 	0b01110100
-  rotation_ = 1;
+  //rotation_ = 1;
   WriteData(0b01100100 | 0b00010011);     //Horizontal address increment
 
   WriteCommand(SSD1351_CMD_STARTLINE);  //set display start line
-  WriteData(0x7F);     //start 00 line
+  WriteData(0x00);     //start 00 line
 
   WriteCommand(0xa2);  //set display offset
   WriteData(0x00);
@@ -386,16 +396,16 @@ void OledDriver::DeviceInit(void)
 // Draw a horizontal line ignoring any screen rotation.
 void OledDriver::DrawFastHLine(int16_t x, int16_t y, int16_t length)
 {
-  if (!orientation_checked_)
-  {
-    if (rotation_ & 1)
-    {
-      orientation_checked_ = true;
-      DrawFastVLine(y, x, length);
-      orientation_checked_ = false;
-	  return;
-    }
-  }
+//  if (!orientation_checked_)
+//  {
+//    if (rotation_ & 1)
+//    {
+//      orientation_checked_ = true;
+//      DrawFastVLine(y, x, length);
+//      orientation_checked_ = false;
+//	  return;
+//    }
+//  }
 
   // Bounds check
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
@@ -433,16 +443,16 @@ void OledDriver::DrawFastHLine(int16_t x, int16_t y, int16_t length)
 // Draw a vertical line ignoring any screen rotation.
 void OledDriver::DrawFastVLine(int16_t x, int16_t y, int16_t length)
 {
-  if (!orientation_checked_)
-  {
-    if (rotation_ & 1)
-    {
-      orientation_checked_ = true;
-	  DrawFastHLine(y, x, length);
-	  orientation_checked_ = false;
-	  return;
-    }
-  }
+//  if (!orientation_checked_)
+//  {
+//    if (rotation_ & 1)
+//    {
+//      orientation_checked_ = true;
+//	  DrawFastHLine(y, x, length);
+//	  orientation_checked_ = false;
+//	  return;
+//    }
+//  }
   // Bounds check
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
   {

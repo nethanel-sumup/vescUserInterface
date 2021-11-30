@@ -3,7 +3,7 @@
 /*********************************************************************************/
 #include <gui_generated/screen_screen/screenViewBase.hpp>
 #include <touchgfx/Color.hpp>
-#include <BitmapDatabase.hpp>
+#include <texts/TextKeysAndLanguages.hpp>
 
 screenViewBase::screenViewBase()
 {
@@ -12,14 +12,16 @@ screenViewBase::screenViewBase()
     __background.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
 
     box1.setPosition(0, 0, 128, 128);
-    box1.setColor(touchgfx::Color::getColorFromRGB(95, 178, 178));
+    box1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
 
-    button1.setXY(34, 34);
-    button1.setBitmaps(touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_EDGE_ICON_BUTTON_ID), touchgfx::Bitmap(BITMAP_BLUE_BUTTONS_ROUND_EDGE_ICON_BUTTON_PRESSED_ID));
+    textArea1.setXY(0, 0);
+    textArea1.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
+    textArea1.setLinespacing(0);
+    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_QTH3));
 
     add(__background);
     add(box1);
-    add(button1);
+    add(textArea1);
 }
 
 void screenViewBase::setupScreen()

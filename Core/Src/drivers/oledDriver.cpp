@@ -3,6 +3,7 @@
 #include "gpio.h"
 #include <string.h>
 #include <drivers/asciiFonts.h>
+#include <cmsis_os2.h>
 
 
 #ifdef __cplusplus
@@ -55,35 +56,11 @@ void OledDriver::WriteCommand(uint8_t cmd)
 {
   OLED_CS(GPIO_PIN_RESET);
 
-#if  INTERFACE_4WIRE_SPI
-
   OLED_DC(GPIO_PIN_RESET);
 
   while (HAL_SPI_Transmit(&hspi1, &cmd, 0x01, 0x10) != HAL_OK);
 
   OLED_DC(GPIO_PIN_SET);
-
-#elif INTERFACE_3WIRE_SPI
-
-  uint8_t i;
-	uint16_t hwData = 0;
-
-  hwData = (uint16_t)cmd & ~0x0100;
-
-	for(i = 0; i < 9; i ++) {
-		OLED_SCK(GPIO_PIN_RESET);
-    if(hwData & 0x0100) {
-      OLED_DIN(GPIO_PIN_SET);
-		}
-    else  {
-      OLED_DIN(GPIO_PIN_RESET);
-		}
-    OLED_SCK(GPIO_PIN_SET);
-		hwData <<= 1;
-	}
-
-
-#endif
 
   OLED_CS(GPIO_PIN_SET);
 }
@@ -92,34 +69,12 @@ void OledDriver::WriteData(uint8_t dat)
 {
   OLED_CS(GPIO_PIN_RESET);
 
-#if  INTERFACE_4WIRE_SPI
 
   OLED_DC(GPIO_PIN_SET);
 
   while (HAL_SPI_Transmit(&hspi1, &dat, 0x01, 0x10) != HAL_OK);
 
   OLED_DC(GPIO_PIN_RESET);
-
-#elif INTERFACE_3WIRE_SPI
-
-  uint8_t i;
-	uint16_t hwData = 0;
-
-  hwData = (uint16_t)dat | 0x0100;
-
-	for(i = 0; i < 9; i ++) {
-    OLED_SCK(GPIO_PIN_RESET);
-		if(hwData & 0x0100) {
-      OLED_DIN(GPIO_PIN_SET);
-		}
-    else  {
-      OLED_DIN(GPIO_PIN_RESET);
-		}
-    OLED_SCK(GPIO_PIN_SET);
-		hwData <<= 1;
-	}
-
-#endif
 
   OLED_CS(GPIO_PIN_SET);
 }
@@ -135,11 +90,20 @@ void OledDriver::WriteData(uint8_t *dat_p, uint16_t length)
   OLED_CS(GPIO_PIN_SET);
 }
 
+static void SwapBuffer(uint16_t *data, uint16_t length)
+{
+	for (int i = 0; i < length; i++)
+	{
+		data[i] = (data[i] << 8) | (data[i] >> 8);
+	}
+}
+
 void OledDriver::WriteMultipleData(uint16_t *data, uint16_t length)
 {
 	OLED_CS(GPIO_PIN_RESET);
 	OLED_DC(GPIO_PIN_SET);
 
+	SwapBuffer(data, length);
 
 	while (HAL_SPI_Transmit(&hspi1, (uint8_t *)data, length * 2, 0x10) != HAL_OK);
 
@@ -213,11 +177,7 @@ void OledDriver::SetAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h)
 {
 
   uint16_t x2 = x1 + w - 1, y2 = y1 + h - 1;
-//  if (rotation & 1)
-//  { // Vertical address increment mode
-//    swap(x1, y1);
-//    swap(x2, y2);
-//  }
+
   WriteCommand(SSD1351_CMD_SETCOLUMN); // X range
   WriteData(x1);
   WriteData(x2);
@@ -229,10 +189,6 @@ void OledDriver::SetAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h)
 
 void OledDriver::SetAddress(uint8_t column, uint8_t row)
 {
-//  if (rotation_ & 1)
-//  {
-//	swap(column, row);
-//  }
   WriteCommand(SSD1351_CMD_SETCOLUMN);
   WriteData(column);	//X start
   WriteData(column);	//X end
@@ -275,20 +231,6 @@ void OledDriver::Invert(bool v)
 
 void OledDriver::DrawPixel(int16_t x, int16_t y)
 {
-//  if (rotation_ & 1)
-//  {
-//	  swap(x, y);
-//  }
-  // Bounds check.
-//  if ((x >= ScreenWidth) || (y >= ScreenHeight))
-//  {
-//    return;
-//  }
-//  if ((x < 0) || (y < 0))
-//  {
-//    return;
-//  }
-
   SetAddress(x, y);
 
   // transfer data
@@ -304,17 +246,6 @@ void OledDriver::DrawPixel(int x, int y, uint16_t color)
 
 void OledDriver::DeviceInit(void)
 {
-
-#if INTERFACE_3WIRE_SPI
-
-  OLED_DC(GPIO_PIN_RESET);
-  HAL_SPI_DeInit(&hspi1);
-  SPI_GPIO_Init();
-
-#endif
-
-  OLED_CS(GPIO_PIN_RESET);
-
   OLED_RST(GPIO_PIN_RESET);
   HAL_Delay(50);
   OLED_RST(GPIO_PIN_SET);
@@ -343,9 +274,16 @@ void OledDriver::DeviceInit(void)
   WriteData(0x7F);
 
   WriteCommand(SSD1351_CMD_SETREMAP);  //set re-map & data format
-  //	 	0b01110100
-  //rotation_ = 1;
-  WriteData(0b01100100 | 0b00010011);     //Horizontal address increment
+
+  // madctl bits:
+  // 6,7 Color depth (01 = 64K)
+  // 5   Odd/even split COM (0: disable, 1: enable)
+  // 4   Scan direction (0: top-down, 1: bottom-up)
+  // 3   Reserved
+  // 2   Color remap (0: A->B->C, 1: C->B->A)
+  // 1   Column remap (0: 0-127, 1: 127-0)
+  // 0   Address increment (0: horizontal, 1: vertical)
+  WriteData(0b01100100 | 0b00010011);
 
   WriteCommand(SSD1351_CMD_STARTLINE);  //set display start line
   WriteData(0x00);     //start 00 line
@@ -364,7 +302,7 @@ void OledDriver::DeviceInit(void)
   WriteCommand(0xC1);
   WriteData(0xC8);
   WriteData(0x80);
-  WriteData(0xC0);
+  WriteData(0xC8);
 
   WriteCommand(0xC7);
   WriteData(0x0F);
@@ -396,17 +334,6 @@ void OledDriver::DeviceInit(void)
 // Draw a horizontal line ignoring any screen rotation.
 void OledDriver::DrawFastHLine(int16_t x, int16_t y, int16_t length)
 {
-//  if (!orientation_checked_)
-//  {
-//    if (rotation_ & 1)
-//    {
-//      orientation_checked_ = true;
-//      DrawFastVLine(y, x, length);
-//      orientation_checked_ = false;
-//	  return;
-//    }
-//  }
-
   // Bounds check
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
   {
@@ -443,16 +370,6 @@ void OledDriver::DrawFastHLine(int16_t x, int16_t y, int16_t length)
 // Draw a vertical line ignoring any screen rotation.
 void OledDriver::DrawFastVLine(int16_t x, int16_t y, int16_t length)
 {
-//  if (!orientation_checked_)
-//  {
-//    if (rotation_ & 1)
-//    {
-//      orientation_checked_ = true;
-//	  DrawFastHLine(y, x, length);
-//	  orientation_checked_ = false;
-//	  return;
-//    }
-//  }
   // Bounds check
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
   {

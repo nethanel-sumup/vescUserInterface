@@ -14,7 +14,7 @@ screenViewBase::screenViewBase()
     box1.setPosition(0, 0, 128, 128);
     box1.setColor(touchgfx::Color::getColorFromRGB(0, 0, 0));
 
-    textArea1.setXY(0, 0);
+    textArea1.setXY(34, 52);
     textArea1.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     textArea1.setLinespacing(0);
     textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_QTH3));
@@ -27,4 +27,13 @@ screenViewBase::screenViewBase()
 void screenViewBase::setupScreen()
 {
 
+}
+
+//Called when the screen transition ends
+void screenViewBase::afterTransition()
+{
+    //Interaction1
+    //When screen transition ends change screen to Screen1
+    //Go to Screen1 with screen transition towards East
+    application().gotoScreen1ScreenSlideTransitionEast();
 }

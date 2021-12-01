@@ -13,6 +13,8 @@
           {
             "Type": "TextArea",
             "Name": "textArea1",
+            "X": 34,
+            "Y": 52,
             "Width": 60,
             "Height": 24,
             "TextId": "__SingleUse_QTH3",
@@ -25,7 +27,20 @@
             "AutoSize": true
           }
         ],
-        "Interactions": []
+        "Interactions": [
+          {
+            "InteractionName": "Interaction1",
+            "Trigger": {
+              "Type": "TriggerScreenEntered"
+            },
+            "Action": {
+              "Type": "ActionGotoScreen",
+              "ScreenTransitionType": "ScreenTransitionSlide",
+              "ScreenTransitionDirection": "East",
+              "ActionComponent": "Screen1"
+            }
+          }
+        ]
       },
       {
         "Name": "Screen1",
@@ -48,7 +63,7 @@
       "Height": 128
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "Screen1",
+    "StartupScreenName": "screen",
     "SelectedStartupLanguage": "GB",
     "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
@@ -73,7 +88,20 @@
     "FrameworkFeatures": {
       "LCD16bpp": {
         "Id": "LCD16bpp",
-        "IsEnabled": true
+        "Features": [
+          {
+            "Id": "RGB565",
+            "IsEnabled": true
+          },
+          {
+            "Id": "L8_RGB565",
+            "IsEnabled": true
+          },
+          {
+            "Id": "A4",
+            "IsEnabled": true
+          }
+        ]
       }
     },
     "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",

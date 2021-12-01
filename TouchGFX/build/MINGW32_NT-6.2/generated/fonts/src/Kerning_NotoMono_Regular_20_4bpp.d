@@ -1,5 +1,5 @@
-build/MINGW32_NT-6.2/generated/fonts/src/Kerning_SourceCodePro_LightIt_20_4bpp.o: \
- generated/fonts/src/Kerning_SourceCodePro_LightIt_20_4bpp.cpp \
+build/MINGW32_NT-6.2/generated/fonts/src/Kerning_NotoMono_Regular_20_4bpp.o: \
+ generated/fonts/src/Kerning_NotoMono_Regular_20_4bpp.cpp \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/Font.hpp \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Types.hpp \
  ../Middlewares/ST/touchgfx/framework/include/touchgfx/hal/Config.hpp \

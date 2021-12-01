@@ -5,10 +5,10 @@
 #include <fonts/GeneratedFont.hpp>
 #include <texts/TypedTextDatabase.hpp>
 
-extern touchgfx::GeneratedFont& getFont_NotoMono_Regular_20_4bpp();
+extern touchgfx::GeneratedFont& getFont_DS_DIGIB_83_4bpp();
 
 const touchgfx::Font* touchgfx_fonts[] = {
-    &(getFont_NotoMono_Regular_20_4bpp())
+    &(getFont_DS_DIGIB_83_4bpp())
 };
 
 extern const touchgfx::TypedText::TypedTextData typedText_database_DEFAULT[];
@@ -53,7 +53,7 @@ void resetFont(touchgfx::FontId fontId)
     switch (fontId)
     {
     case 0:
-        touchgfx_fonts[0] = &(getFont_NotoMono_Regular_20_4bpp());
+        touchgfx_fonts[0] = &(getFont_DS_DIGIB_83_4bpp());
         break;
     }
 }

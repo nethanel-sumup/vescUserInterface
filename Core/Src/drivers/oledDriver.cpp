@@ -247,9 +247,9 @@ void OledDriver::DrawPixel(int x, int y, uint16_t color)
 void OledDriver::DeviceInit(void)
 {
   OLED_RST(GPIO_PIN_RESET);
-  HAL_Delay(50);
+  osDelay(50);
   OLED_RST(GPIO_PIN_SET);
-  HAL_Delay(50);
+  osDelay(50);
 
   WriteCommand(0xfd);	// command lock
   WriteData(0x12);
@@ -283,7 +283,7 @@ void OledDriver::DeviceInit(void)
   // 2   Color remap (0: A->B->C, 1: C->B->A)
   // 1   Column remap (0: 0-127, 1: 127-0)
   // 0   Address increment (0: horizontal, 1: vertical)
-  WriteData(0b01100100 | 0b00010011);
+  WriteData(0b01100100 | 0b00000010);
 
   WriteCommand(SSD1351_CMD_STARTLINE);  //set display start line
   WriteData(0x00);     //start 00 line

@@ -16,7 +16,6 @@ public:
     screenViewBase();
     virtual ~screenViewBase() {}
     virtual void setupScreen();
-    virtual void afterTransition();
 
 protected:
     FrontendApplication& application() {

@@ -18,7 +18,7 @@ struct Typography
 
 struct TypographyFontIndex
 {
-    static const touchgfx::FontId TYPOGRAPHY_00 = 0; // NotoMono_Regular_20_4bpp
+    static const touchgfx::FontId TYPOGRAPHY_00 = 0; // DS_DIGIB_83_4bpp
     static const uint16_t NUMBER_OF_FONTS = 1;
 };
 

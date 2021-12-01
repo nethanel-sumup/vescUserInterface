@@ -12,7 +12,7 @@ enum LANGUAGES
 
 enum TEXTS
 {
-    T___SINGLEUSE_QTH3,
+    T___SINGLEUSE_BG2B,
     NUMBER_OF_TEXT_KEYS
 };
 

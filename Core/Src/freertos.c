@@ -202,13 +202,12 @@ void StartDefaultTask(void *argument)
 
   //ui_initialize();
   //ui_fill_battery(100);
-
   /* Infinite loop */
   for(;;)
   {
     //bldc_interface_get_values();
 	signal_vsync();
-    osDelay(1000);
+    osDelay(40);
 
   }
   /* USER CODE END StartDefaultTask */

@@ -13,44 +13,16 @@
           {
             "Type": "TextArea",
             "Name": "textArea1",
-            "X": 34,
-            "Y": 52,
-            "Width": 60,
-            "Height": 24,
-            "TextId": "__SingleUse_QTH3",
+            "X": 43,
+            "Width": 85,
+            "Height": 83,
+            "TextId": "__SingleUse_BG2B",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
               "Green": 255,
               "Blue": 255
-            },
-            "AutoSize": true
-          }
-        ],
-        "Interactions": [
-          {
-            "InteractionName": "Interaction1",
-            "Trigger": {
-              "Type": "TriggerScreenEntered"
-            },
-            "Action": {
-              "Type": "ActionGotoScreen",
-              "ScreenTransitionType": "ScreenTransitionSlide",
-              "ScreenTransitionDirection": "East",
-              "ActionComponent": "Screen1"
             }
-          }
-        ]
-      },
-      {
-        "Name": "Screen1",
-        "Components": [
-          {
-            "Type": "Image",
-            "Name": "image1",
-            "Width": 128,
-            "Height": 128,
-            "RelativeFilename": "__designer\\Blue_Logo_touchgfx_logo.png"
           }
         ],
         "Interactions": []
@@ -113,7 +85,7 @@
     "LandscapeSkinY": 0,
     "PortraitSkinX": 0,
     "PortraitSkinY": 0,
-    "DisplayOrientation": "Landscape",
+    "DisplayOrientation": "Portrait",
     "Family": "STM32F4"
   },
   "Version": "4.18.0"

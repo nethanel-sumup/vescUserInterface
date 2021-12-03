@@ -15,15 +15,20 @@
 *
 ******************************************************************************
 */
-#include <texts/TypedTextDatabase.hpp>
+
+#include <BitmapDatabase.hpp>
 #include <fonts/ApplicationFontProvider.hpp>
 #include <gui/common/FrontendHeap.hpp>
-#include <BitmapDatabase.hpp>
+#include <platform/driver/button/ButtonController.hpp>
 #include <platform/driver/lcd/LCD16bpp.hpp>
 #include <STM32DMA.hpp>
-#include <TouchGFXHAL.hpp>
 #include <STM32TouchController.hpp>
-#include <stm32f4xx_hal.h>
+#include <touchgfx/Bitmap.hpp>
+#include <touchgfx/FontManager.hpp>
+#include <touchgfx/hal/HAL.hpp>
+#include <touchgfx/Texts.hpp>
+#include <touchgfx/TypedText.hpp>
+#include <TouchGFXHAL.hpp>
 
 extern "C" void touchgfx_init();
 extern "C" void touchgfx_taskEntry();

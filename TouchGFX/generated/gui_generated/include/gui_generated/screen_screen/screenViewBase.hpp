@@ -16,6 +16,8 @@ public:
     screenViewBase();
     virtual ~screenViewBase() {}
     virtual void setupScreen();
+    virtual void handleTickEvent();
+    virtual void afterTransition();
 
 protected:
     FrontendApplication& application() {
@@ -30,6 +32,20 @@ protected:
     touchgfx::TextArea textArea1;
 
 private:
+
+    /*
+     * Delay Variable Declarations
+     */
+    static const uint16_t INTERACTION1_DURATION = 30;
+    uint16_t interaction1Counter;
+    static const uint16_t INTERACTION3_DURATION = 2;
+    uint16_t interaction3Counter;
+    static const uint16_t INTERACTION5_DURATION = 2;
+    uint16_t interaction5Counter;
+    static const uint16_t INTERACTION7_DURATION = 2;
+    uint16_t interaction7Counter;
+    static const uint16_t INTERACTION9_DURATION = 2;
+    uint16_t interaction9Counter;
 
 };
 

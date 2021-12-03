@@ -5,7 +5,12 @@
 #include <touchgfx/Color.hpp>
 #include <texts/TextKeysAndLanguages.hpp>
 
-screenViewBase::screenViewBase()
+screenViewBase::screenViewBase() :
+    interaction1Counter(0),
+    interaction3Counter(0),
+    interaction5Counter(0),
+    interaction7Counter(0),
+    interaction9Counter(0)
 {
 
     __background.setPosition(0, 0, 128, 128);
@@ -17,7 +22,7 @@ screenViewBase::screenViewBase()
     textArea1.setPosition(43, 0, 85, 83);
     textArea1.setColor(touchgfx::Color::getColorFromRGB(255, 255, 255));
     textArea1.setLinespacing(0);
-    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_BG2B));
+    textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_QFAQ));
 
     add(__background);
     add(box1);
@@ -27,4 +32,98 @@ screenViewBase::screenViewBase()
 void screenViewBase::setupScreen()
 {
 
+}
+
+//Handles delays
+void screenViewBase::handleTickEvent()
+{
+    if(interaction1Counter > 0)
+    {
+        interaction1Counter--;
+        if(interaction1Counter == 0)
+        {
+            //Interaction2
+            //When Interaction1 completed set text textArea1
+            //Set textArea1 text to 01
+            textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_0V0E));
+            textArea1.invalidate();
+
+            //Interaction3
+            //When Interaction2 completed delay
+            //Delay for 40 ms (2 Ticks)
+            interaction3Counter = INTERACTION3_DURATION;
+        }
+    }
+    if(interaction3Counter > 0)
+    {
+        interaction3Counter--;
+        if(interaction3Counter == 0)
+        {
+            //Interaction4
+            //When Interaction3 completed set text textArea1
+            //Set textArea1 text to 02
+            textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_DIZ6));
+            textArea1.invalidate();
+
+            //Interaction5
+            //When Interaction4 completed delay
+            //Delay for 40 ms (2 Ticks)
+            interaction5Counter = INTERACTION5_DURATION;
+        }
+    }
+    if(interaction5Counter > 0)
+    {
+        interaction5Counter--;
+        if(interaction5Counter == 0)
+        {
+            //Interaction6
+            //When Interaction5 completed set text textArea1
+            //Set textArea1 text to 03
+            textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_687M));
+            textArea1.invalidate();
+
+            //Interaction7
+            //When Interaction6 completed delay
+            //Delay for 40 ms (2 Ticks)
+            interaction7Counter = INTERACTION7_DURATION;
+        }
+    }
+    if(interaction7Counter > 0)
+    {
+        interaction7Counter--;
+        if(interaction7Counter == 0)
+        {
+            //Interaction8
+            //When Interaction7 completed set text textArea1
+            //Set textArea1 text to 04
+            textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_DCCZ));
+            textArea1.invalidate();
+
+            //Interaction9
+            //When Interaction8 completed delay
+            //Delay for 40 ms (2 Ticks)
+            interaction9Counter = INTERACTION9_DURATION;
+        }
+    }
+    if(interaction9Counter > 0)
+    {
+        interaction9Counter--;
+        if(interaction9Counter == 0)
+        {
+            //Interaction10
+            //When Interaction9 completed set text textArea1
+            //Set textArea1 text to 05
+            textArea1.setTypedText(touchgfx::TypedText(T___SINGLEUSE_88V9));
+            textArea1.invalidate();
+        }
+    }
+}
+
+//Called when the screen transition ends
+void screenViewBase::afterTransition()
+{
+    //Interaction1
+    //When screen transition ends delay
+    //Delay for 500 ms (30 Ticks)
+    interaction1Counter = INTERACTION1_DURATION;
 }

@@ -37,6 +37,7 @@ void TouchGFXHAL::initialize()
 	HAL::initialize();
 	registerEventListener(*(Application::getInstance()));
 	setFrameBufferStartAddresses((void*)frame_buffer_, (void*)0, (void*)0);
+
 	/*
 	 * Set whether the DMA transfers are locked to the TFT update cycle. If
 	 * locked, DMA transfer will not begin until the TFT controller has finished
@@ -94,6 +95,8 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
     // To calculate he start adress of rect,
     // use advanceFrameBufferToRect(uint8_t* fbPtr, const touchgfx::Rect& rect)
     // defined in TouchGFXGeneratedHAL.cpp
+	int start = HAL_GetTick();
+
 	screen_driver_.SetAddrWindow(rect.x, rect.y, rect.width, rect.height);
 
 	uint16_t *ptr;
@@ -103,6 +106,11 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 		ptr = getClientFrameBuffer() + rect.x + (h + rect.y) * HAL::DISPLAY_WIDTH;
 		screen_driver_.WriteMultipleData(ptr, rect.width);
 	}
+
+	int stop = HAL_GetTick();
+	int elapsed = stop - start;
+	(void)elapsed;
+
 
 	HAL::flushFrameBuffer(rect);
 }

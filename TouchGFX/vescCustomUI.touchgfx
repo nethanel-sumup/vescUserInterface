@@ -16,7 +16,7 @@
             "X": 43,
             "Width": 85,
             "Height": 83,
-            "TextId": "__SingleUse_BG2B",
+            "TextId": "__SingleUse_QFAQ",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
@@ -25,7 +25,131 @@
             }
           }
         ],
-        "Interactions": []
+        "Interactions": [
+          {
+            "InteractionName": "Interaction1",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerScreenEntered"
+            },
+            "Action": {
+              "Type": "ActionDelay",
+              "Duration": 500
+            }
+          },
+          {
+            "InteractionName": "Interaction2",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction1"
+            },
+            "Action": {
+              "Type": "ActionSetText",
+              "TextId": "__SingleUse_0V0E",
+              "ActionComponent": "textArea1"
+            }
+          },
+          {
+            "InteractionName": "Interaction3",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction2"
+            },
+            "Action": {
+              "Type": "ActionDelay",
+              "Duration": 40
+            }
+          },
+          {
+            "InteractionName": "Interaction4",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction3"
+            },
+            "Action": {
+              "Type": "ActionSetText",
+              "TextId": "__SingleUse_DIZ6",
+              "ActionComponent": "textArea1"
+            }
+          },
+          {
+            "InteractionName": "Interaction5",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction4"
+            },
+            "Action": {
+              "Type": "ActionDelay",
+              "Duration": 40
+            }
+          },
+          {
+            "InteractionName": "Interaction6",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction5"
+            },
+            "Action": {
+              "Type": "ActionSetText",
+              "TextId": "__SingleUse_687M",
+              "ActionComponent": "textArea1"
+            }
+          },
+          {
+            "InteractionName": "Interaction7",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction6"
+            },
+            "Action": {
+              "Type": "ActionDelay",
+              "Duration": 40
+            }
+          },
+          {
+            "InteractionName": "Interaction8",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction7"
+            },
+            "Action": {
+              "Type": "ActionSetText",
+              "TextId": "__SingleUse_DCCZ",
+              "ActionComponent": "textArea1"
+            }
+          },
+          {
+            "InteractionName": "Interaction9",
+            "HasCompletedTrigger": true,
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction8"
+            },
+            "Action": {
+              "Type": "ActionDelay",
+              "Duration": 40
+            }
+          },
+          {
+            "InteractionName": "Interaction10",
+            "Trigger": {
+              "Type": "TriggerInteractionCompleted",
+              "InteractionToTriggerOn": "Interaction9"
+            },
+            "Action": {
+              "Type": "ActionSetText",
+              "TextId": "__SingleUse_88V9",
+              "ActionComponent": "textArea1"
+            }
+          }
+        ]
       }
     ],
     "CustomContainerDefinitions": [],
@@ -67,10 +191,6 @@
           },
           {
             "Id": "L8_RGB565",
-            "IsEnabled": true
-          },
-          {
-            "Id": "A4",
             "IsEnabled": true
           }
         ]

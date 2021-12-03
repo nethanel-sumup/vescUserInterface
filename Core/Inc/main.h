@@ -62,8 +62,8 @@ void Error_Handler(void);
 #define OLED_CS_GPIO_Port GPIOC
 #define OLED_DC_Pin GPIO_PIN_14
 #define OLED_DC_GPIO_Port GPIOC
-#define BUTTON1_Pin GPIO_PIN_0
-#define BUTTON1_GPIO_Port GPIOA
+#define WKUP_BUTTON_Pin GPIO_PIN_0
+#define WKUP_BUTTON_GPIO_Port GPIOA
 #define OLED_RST_Pin GPIO_PIN_1
 #define OLED_RST_GPIO_Port GPIOA
 #define ACCELERATOR_Pin GPIO_PIN_4

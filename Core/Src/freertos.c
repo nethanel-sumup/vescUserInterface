@@ -56,6 +56,7 @@ extern "C" {
 /* USER CODE BEGIN Variables */
 extern UART_HandleTypeDef huart2;
 uint8_t _received_char = 0;
+
 /* USER CODE END Variables */
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
@@ -203,11 +204,12 @@ void StartDefaultTask(void *argument)
   //ui_initialize();
   //ui_fill_battery(100);
   /* Infinite loop */
+
   for(;;)
   {
     //bldc_interface_get_values();
 	signal_vsync();
-    osDelay(40);
+    osDelay(60);
 
   }
   /* USER CODE END StartDefaultTask */

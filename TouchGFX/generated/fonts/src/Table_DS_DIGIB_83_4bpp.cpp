@@ -5,7 +5,12 @@
 FONT_TABLE_LOCATION_FLASH_PRAGMA
 KEEP extern const touchgfx::GlyphNode glyphs_DS_DIGIB_83_4bpp[] FONT_TABLE_LOCATION_FLASH_ATTRIBUTE = {
     {     0, 0x0030,  34,  53,  53,   4,  42,   0,   0, 0x00 },
-    {   901, 0x003F,  34,  64,  53,   4,  42,   0,   0, 0x00 }
+    {   901, 0x0031,   9,  51,  52,   7,  24,   0,   0, 0x00 },
+    {  1156, 0x0032,  34,  53,  53,   4,  42,   0,   0, 0x00 },
+    {  2057, 0x0033,  32,  53,  53,   6,  42,   0,   0, 0x00 },
+    {  2905, 0x0034,  34,  50,  52,   4,  42,   0,   0, 0x00 },
+    {  3755, 0x0035,  34,  53,  53,   4,  42,   0,   0, 0x00 },
+    {  4656, 0x003F,  34,  64,  53,   4,  42,   0,   0, 0x00 }
 };
 
 // DS_DIGIB_83_4bpp
@@ -23,6 +28,6 @@ touchgfx::GeneratedFont& getFont_DS_DIGIB_83_4bpp();
 
 touchgfx::GeneratedFont& getFont_DS_DIGIB_83_4bpp()
 {
-    static touchgfx::GeneratedFont DS_DIGIB_83_4bpp(glyphs_DS_DIGIB_83_4bpp, 2, 83, 11, 4, 1, 0, 0, unicodes_DS_DIGIB_83_4bpp, kerning_DS_DIGIB_83_4bpp, 63, 0, 0, 0);
+    static touchgfx::GeneratedFont DS_DIGIB_83_4bpp(glyphs_DS_DIGIB_83_4bpp, 7, 83, 11, 4, 1, 0, 0, unicodes_DS_DIGIB_83_4bpp, kerning_DS_DIGIB_83_4bpp, 63, 0, 0, 0);
     return DS_DIGIB_83_4bpp;
 }

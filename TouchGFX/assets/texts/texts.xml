@@ -2,22 +2,10 @@
 <TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.18.0">
   <Texts>
     <Text Id="__SingleUse_QFAQ" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
+      <Translation Language="GB">&lt;dd&gt;</Translation>
+    </Text>
+    <Text Id="__SingleUse_RRRW" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
       <Translation Language="GB">00</Translation>
-    </Text>
-    <Text Id="__SingleUse_0V0E" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">01</Translation>
-    </Text>
-    <Text Id="__SingleUse_DIZ6" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">02</Translation>
-    </Text>
-    <Text Id="__SingleUse_687M" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">03</Translation>
-    </Text>
-    <Text Id="__SingleUse_DCCZ" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">04</Translation>
-    </Text>
-    <Text Id="__SingleUse_88V9" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">05</Translation>
     </Text>
   </Texts>
   <Typographies>

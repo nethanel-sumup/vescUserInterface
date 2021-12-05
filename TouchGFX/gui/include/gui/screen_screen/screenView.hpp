@@ -11,7 +11,9 @@ public:
     virtual ~screenView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
+    virtual void IncreaseValue();
 protected:
+    int counter;
 };
 
 #endif // SCREENVIEW_HPP

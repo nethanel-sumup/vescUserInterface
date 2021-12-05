@@ -208,6 +208,7 @@ void StartDefaultTask(void *argument)
   for(;;)
   {
     //bldc_interface_get_values();
+
 	signal_vsync();
     osDelay(60);
 

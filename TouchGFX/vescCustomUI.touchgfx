@@ -12,11 +12,11 @@
           },
           {
             "Type": "TextArea",
-            "Name": "textArea1",
+            "Name": "speedText",
             "X": 43,
             "Width": 85,
             "Height": 83,
-            "TextId": "__SingleUse_QFAQ",
+            "TextId": "__SingleUse_FEAW",
             "TextRotation": "0",
             "Color": {
               "Red": 255,
@@ -24,7 +24,7 @@
               "Blue": 255
             },
             "Wildcard1": {
-              "TextId": "__SingleUse_RRRW",
+              "TextId": "__SingleUse_95H6",
               "UseBuffer": true,
               "BufferSize": 10
             }

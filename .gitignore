@@ -2,3 +2,11 @@
 Debug/
 
 Release/
+
+.settings/
+
+TouchGFX/config/
+
+TouchGFX/generated/
+
+TouchGFX/simulator/

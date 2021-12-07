@@ -90,22 +90,19 @@ void OledDriver::WriteData(uint8_t *dat_p, uint16_t length)
   OLED_CS(GPIO_PIN_SET);
 }
 
-static void SwapBuffer(uint16_t *data, uint16_t length)
-{
-	for (int i = 0; i < length; i++)
-	{
-		data[i] = (data[i] << 8) | (data[i] >> 8);
-	}
-}
-
 void OledDriver::WriteMultipleData(uint16_t *data, uint16_t length)
 {
 	OLED_CS(GPIO_PIN_RESET);
 	OLED_DC(GPIO_PIN_SET);
 
-	SwapBuffer(data, length);
+	uint8_t buffer[2];
 
-	while (HAL_SPI_Transmit(&hspi1, (uint8_t *)data, length * 2, 0x10) != HAL_OK);
+	for (int i = 0; i < length; i++)
+	{
+	  buffer[0] = data[i] & 0xFF;
+	  buffer[1] = (data[i] >> 8) & 0xFF;
+	  while (HAL_SPI_Transmit(&hspi1, buffer, 2, 0x10) != HAL_OK);
+	}
 
 	OLED_DC(GPIO_PIN_RESET);
 	OLED_CS(GPIO_PIN_SET);
@@ -175,15 +172,12 @@ void OledDriver::SetCoordinates(uint16_t x, uint16_t y)
 
 void OledDriver::SetAddrWindow(uint16_t x1, uint16_t y1, uint16_t w, uint16_t h)
 {
-
-  uint16_t x2 = x1 + w - 1, y2 = y1 + h - 1;
-
   WriteCommand(SSD1351_CMD_SETCOLUMN); // X range
   WriteData(x1);
-  WriteData(x2);
+  WriteData(x1 + w - 1);
   WriteCommand(SSD1351_CMD_SETROW); // Y range
   WriteData(y1);
-  WriteData(y2);
+  WriteData(y1 + h - 1);
   WriteCommand(SSD1351_CMD_WRITERAM); // Begin write
 }
 

@@ -172,7 +172,12 @@ public:
      * @param rect The area of the screen expressed in absolute coordinates, which has to be transformed to address.
      *
      */
-    inline uint8_t* advanceFrameBufferToRect(uint8_t* fbPtr, const touchgfx::Rect& rect) const;
+    inline uint8_t* advanceFrameBufferToRect(uint8_t* fbPtr, const touchgfx::Rect& rect) const
+    {
+    	//       Advance vertically                   Advance horizontally
+		fbPtr += rect.y * lcd().framebufferStride() + rect.x * 2;
+		return fbPtr;
+    }
 
 protected:
     /**

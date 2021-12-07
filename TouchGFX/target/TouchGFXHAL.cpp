@@ -99,18 +99,17 @@ void TouchGFXHAL::flushFrameBuffer(const touchgfx::Rect& rect)
 
 	screen_driver_.SetAddrWindow(rect.x, rect.y, rect.width, rect.height);
 
-	uint16_t *ptr;
+	__IO uint16_t *ptr;
 
 	for (int h = 0; h < rect.height; h++)
 	{
 		ptr = getClientFrameBuffer() + rect.x + (h + rect.y) * HAL::DISPLAY_WIDTH;
-		screen_driver_.WriteMultipleData(ptr, rect.width);
+		screen_driver_.WriteMultipleData((uint16_t *)ptr, rect.width);
 	}
 
 	int stop = HAL_GetTick();
 	int elapsed = stop - start;
 	(void)elapsed;
-
 
 	HAL::flushFrameBuffer(rect);
 }

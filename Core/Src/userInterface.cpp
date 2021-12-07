@@ -191,6 +191,11 @@ void signal_vsync(void)
 	touchgfx::OSWrappers::signalVSync();
 }
 
+void ui_test(void)
+{
+
+}
+
 #ifdef __cplusplus
 }
 #endif

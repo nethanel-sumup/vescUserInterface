@@ -10,6 +10,7 @@ extern "C" {
   void ui_print_esc_values(mc_values *val);
   void ui_fill_battery(int stateOfCharge);
   void signal_vsync(void);
+  void ui_test(void);
 
 #ifdef __cplusplus
 }

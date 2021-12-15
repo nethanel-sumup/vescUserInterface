@@ -1,44 +1,43 @@
 #include <userInterface.h>
-#include <drivers/oledDriver.h>
-#include <drivers/oledGfx.h>
 #include <stdio.h>
 
-#include <cmsis_os2.h>
+#include <gui/common/FrontendApplication.hpp>
 #include <touchgfx/hal/OSWrappers.hpp>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define BATTERY_MAX_VOLTAGE (42)                                        // Maximum battery voltage (assuming a 10s battery)
-#define BATTERY_MIN_VOLTAGE (36)                                        // Minimum battery voltage (assuming a 10s battery)
-#define BATTERY_WORK_AREA   (BATTERY_MAX_VOLTAGE - BATTERY_MIN_VOLTAGE) // Working amplitude of the battery
+constexpr const float BatteryMaxVoltage_ = 42; // Maximum battery voltage (assuming a 10s battery)
+constexpr const float BatteryMinVoltage_ = 36; // Minimum battery voltage (assuming a 10s battery)
+constexpr const float BatteryWorkArea_ = BatteryMaxVoltage_ - BatteryMinVoltage_; // Working amplitude of the battery
+constexpr const float FillPixelsPerVoltage_ = 71.0 / BatteryWorkArea_;
 
 
 typedef struct
 {
-  OledGfx screenDriver;
+  float current_battery_voltage;
+
 } userInterfaceContext;
 
 static userInterfaceContext context;
 
-static void draw_battery(void);
 
 /**
- * @brief Convert a state of charge to a battery level
+ * @brief Convert a voltage to a battery level
  *
  * @param stateOfCharge The state of charge to convert
  *
  * @return a battery level between 0 and 5
  */
-static int sof2battery_level(int stateOfCharge);
+static int voltage2battery_level(float voltage)
+{
+  return FillPixelsPerVoltage_ * (BatteryMaxVoltage_ / voltage);
+}
 
 
 int ui_initialize(void)
 {
-  context.screenDriver = OledGfx();
-  context.screenDriver.DeviceInit();
-  draw_battery();
   return 0;
 }
 
@@ -57,133 +56,10 @@ void ui_print_esc_values(mc_values *val)
 //  printf("Tacho:         %i counts\r\n", val->tachometer);
 //  printf("Tacho ABS:     %i counts\r\n", val->tachometer_abs);
 //  printf("Fault Code:    %s\r\n", bldc_interface_fault_to_string(val->fault_code));
-  int battery_percent = (((float)(val->v_in - BATTERY_MIN_VOLTAGE) * 100) / BATTERY_WORK_AREA);
-  if (battery_percent < 0)
-  {
-    battery_percent = 0;
-  }
-  ui_fill_battery(battery_percent);
-
-  context.screenDriver.SetColor(OledDriver::Color::White);
-  context.screenDriver.SetFontSize(OledGfx::FontSize::F5x8);
-
-  char value[20];
-  // Battery voltage
-  sprintf(value, "%.1f V", val->v_in);
-  context.screenDriver.DisplayString5x8(2, 75, (uint8_t *)value);
-  // Mosfet temperature
-  sprintf(value, "%.1f C", val->temp_mos);
-  context.screenDriver.DisplayString5x8(2, 85, (uint8_t *)value);
-  // Current motor
-  sprintf(value, "%.1f A", val->current_motor);
-  context.screenDriver.DisplayString5x8(2, 95, (uint8_t *)value);
-  // Duty cycle
-  sprintf(value, "%.1f %%", val->duty_now * 100);
-  context.screenDriver.DisplayString5x8(2, 105, (uint8_t *)value);
 }
 
-void draw_battery(void)
+void ui_fill_battery(float value)
 {
-  context.screenDriver.SetColor(OledDriver::Color::White);
-
-  context.screenDriver.DrawFastHLine(2, 5, 26);
-//  context.screenDriver.DrawFastHLine(2, 6, 26);
-//  context.screenDriver.DrawFastHLine(24, 5, 13);
-//  context.screenDriver.DrawFastHLine(24, 6, 13);
-//
-//  context.screenDriver.DrawFastHLine(16, 1, 10);
-//  //context.screenDriver.DrawFastHLine(14, 2, 11);
-//
-//  context.screenDriver.DrawFastHLine(2, 70, 13);
-//  context.screenDriver.DrawFastHLine(2, 71, 13);
-//  context.screenDriver.DrawFastHLine(24, 70, 13);
-//  context.screenDriver.DrawFastHLine(24, 71, 13);
-//
-//  context.screenDriver.DrawFastVLine(14, 2, 4);
-//  context.screenDriver.DrawFastVLine(24, 2, 4);
-//
-//  context.screenDriver.DrawFastVLine(3, 6, 64);
-//  context.screenDriver.DrawFastVLine(2, 6, 64);
-//  context.screenDriver.DrawFastVLine(35, 6, 64);
-//  context.screenDriver.DrawFastVLine(36, 6, 64);
-}
-
-static int sof2battery_level(int stateOfCharge)
-{
-  if (stateOfCharge > 80)
-  {
-    return 5;
-  }
-  if (stateOfCharge > 60)
-  {
-    return 4;
-  }
-  if (stateOfCharge > 40)
-  {
-    return 3;
-  }
-  if (stateOfCharge > 20)
-  {
-    return 2;
-  }
-  if (stateOfCharge > 0)
-  {
-    return 1;
-  }
-
-  return 0;
-}
-
-void ui_fill_battery(int stateOfCharge)
-{
-  static int currentBatteryLevel = -1;
-  int requiredBatteryLevel = sof2battery_level(stateOfCharge);
-  int areaToDelete = 0;
-
-  if (requiredBatteryLevel == currentBatteryLevel)
-  {
-    // Nothing to do, as the battery level didn't change since last measurement
-    return;
-  }
-
-  // Compute if there is some graph bars to delete
-  if (currentBatteryLevel > -1)
-  {
-    int barsToDelete = (currentBatteryLevel - requiredBatteryLevel);
-    areaToDelete = (barsToDelete * 10) + (barsToDelete * 2);
-  }
-
-  // Delete the useless battery level area
-  if (areaToDelete > 0)
-  {
-    context.screenDriver.FillRect(6, 9, 27, areaToDelete, OledDriver::Color::Black);
-  }
-
-  // Draw battery bars
-  if (requiredBatteryLevel > 4)
-  {
-    context.screenDriver.FillRect(6, 9, 27, 10, OledDriver::Color::Mediumspringgreen);
-  }
-
-  if (requiredBatteryLevel > 3)
-  {
-    context.screenDriver.FillRect(6, 21, 27, 10, OledDriver::Color::Springgreen);
-  }
-
-  if (requiredBatteryLevel > 2)
-  {
-    context.screenDriver.FillRect(6, 33, 27, 10, OledDriver::Color::Greenyellow);
-  }
-
-  if (requiredBatteryLevel > 1)
-  {
-    context.screenDriver.FillRect(6, 45, 27, 10, OledDriver::Color::Yellow);
-  }
-
-  if (requiredBatteryLevel > 0)
-  {
-    context.screenDriver.FillRect(6, 57, 27, 10, OledDriver::Color::Red);
-  }
 }
 
 void signal_vsync(void)

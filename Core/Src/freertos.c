@@ -204,6 +204,7 @@ void StartDefaultTask(void *argument)
   //ui_initialize();
   //ui_fill_battery(100);
   /* Infinite loop */
+  int counter = 0;
 
   for(;;)
   {
@@ -211,6 +212,11 @@ void StartDefaultTask(void *argument)
 
 	signal_vsync();
     osDelay(60);
+    counter++;
+    if (counter > 10)
+    {
+      counter = 0;
+    }
 
   }
   /* USER CODE END StartDefaultTask */

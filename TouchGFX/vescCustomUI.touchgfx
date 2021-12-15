@@ -14,8 +14,7 @@
             "Type": "CustomContainerInstance",
             "Name": "battery1",
             "X": 2,
-            "Y": 2,
-            "Width": 33,
+            "Width": 44,
             "Height": 100,
             "CustomContainerDefinitionName": "battery"
           },
@@ -24,8 +23,17 @@
             "Name": "speed1",
             "X": 42,
             "Width": 85,
-            "Height": 102,
+            "Height": 100,
             "CustomContainerDefinitionName": "speed"
+          },
+          {
+            "Type": "Image",
+            "Name": "image1",
+            "X": 102,
+            "Y": 111,
+            "Width": 25,
+            "Height": 17,
+            "RelativeFilename": "light.png"
           }
         ],
         "Interactions": []
@@ -34,22 +42,25 @@
     "CustomContainerDefinitions": [
       {
         "Name": "battery",
-        "Width": 33,
+        "Width": 44,
         "Height": 100,
         "Components": [
           {
             "Type": "Image",
             "Name": "battery_img",
+            "X": 4,
             "Width": 33,
             "Height": 80,
+            "LockPosition": true,
             "RelativeFilename": "battery.png"
           },
           {
             "Type": "TextArea",
             "Name": "batteryText",
             "Y": 80,
-            "Width": 33,
-            "Height": 20,
+            "Width": 38,
+            "Height": 16,
+            "LockPosition": true,
             "TextId": "__SingleUse_0HV2",
             "TextRotation": "0",
             "Color": {
@@ -57,10 +68,24 @@
               "Green": 255,
               "Blue": 255
             },
+            "AutoSize": true,
             "Wildcard1": {
               "TextId": "__SingleUse_8EX7",
               "UseBuffer": true,
-              "BufferSize": 6
+              "BufferSize": 8
+            }
+          },
+          {
+            "Type": "Box",
+            "Name": "filler",
+            "X": 6,
+            "Y": 6,
+            "Width": 29,
+            "Height": 71,
+            "LockPosition": true,
+            "Color": {
+              "Green": 106,
+              "Blue": 255
             }
           }
         ],
@@ -70,15 +95,15 @@
         "Name": "speed",
         "X": 42,
         "Width": 85,
-        "Height": 102,
+        "Height": 100,
         "Components": [
           {
             "Type": "TextArea",
             "Name": "km_h",
             "X": 39,
             "Y": 64,
-            "Width": 39,
-            "Height": 20,
+            "Width": 31,
+            "Height": 16,
             "TextId": "__SingleUse_BVNV",
             "TextRotation": "0",
             "Color": {

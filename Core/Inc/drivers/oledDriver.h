@@ -145,8 +145,6 @@ extern "C" {
 
     protected:
       uint8_t _FillColor[2];
-      int rotation_ = 0;
-      bool orientation_checked_ = false;
 
     public:
       OledDriver(void);

@@ -11,11 +11,37 @@
             "Height": 128
           },
           {
+            "Type": "CustomContainerInstance",
+            "Name": "battery1",
+            "X": 2,
+            "Y": 2,
+            "Width": 33,
+            "Height": 100,
+            "CustomContainerDefinitionName": "battery"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "km_h",
+            "X": 96,
+            "Y": 56,
+            "Width": 31,
+            "Height": 16,
+            "TextId": "__SingleUse_5KCX",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
             "Type": "TextArea",
             "Name": "speedText",
-            "X": 43,
-            "Width": 85,
-            "Height": 83,
+            "X": 32,
+            "Y": 12,
+            "Width": 64,
+            "Height": 65,
             "TextId": "__SingleUse_FEAW",
             "TextRotation": "0",
             "Color": {
@@ -24,27 +50,51 @@
               "Blue": 255
             },
             "Wildcard1": {
-              "TextId": "__SingleUse_95H6",
+              "TextId": "__SingleUse_3CU2",
               "UseBuffer": true,
               "BufferSize": 10
             }
           }
         ],
-        "Interactions": [
-          {
-            "InteractionName": "Interaction11",
-            "Trigger": {
-              "Type": "TriggerScreenEntered"
-            },
-            "Action": {
-              "Type": "ActionCustom",
-              "FunctionName": "IncreaseValue"
-            }
-          }
-        ]
+        "Interactions": []
       }
     ],
-    "CustomContainerDefinitions": [],
+    "CustomContainerDefinitions": [
+      {
+        "Name": "battery",
+        "Width": 33,
+        "Height": 100,
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "battery_img",
+            "Width": 33,
+            "Height": 80,
+            "RelativeFilename": "battery.png"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "battery_txt",
+            "Y": 80,
+            "Width": 33,
+            "Height": 20,
+            "TextId": "__SingleUse_0HV2",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "Wildcard1": {
+              "TextId": "__SingleUse_8EX7",
+              "UseBuffer": true,
+              "BufferSize": 6
+            }
+          }
+        ],
+        "Interactions": []
+      }
+    ],
     "Name": "MyApplication",
     "Resolution": {
       "Width": 128,
@@ -79,10 +129,6 @@
         "Features": [
           {
             "Id": "RGB565",
-            "IsEnabled": true
-          },
-          {
-            "Id": "L8_RGB565",
             "IsEnabled": true
           }
         ]

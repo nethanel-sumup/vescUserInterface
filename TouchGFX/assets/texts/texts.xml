@@ -4,11 +4,21 @@
     <Text Id="__SingleUse_FEAW" TypographyId="Typography_00" Alignment="Right" Direction="LTR">
       <Translation Language="GB" Direction="LTR">&lt;speed&gt;</Translation>
     </Text>
-    <Text Id="__SingleUse_95H6" TypographyId="Typography_00" Alignment="Right" Direction="LTR">
-      <Translation Language="GB">0</Translation>
+    <Text Id="__SingleUse_3CU2" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
+      <Translation Language="GB">69</Translation>
+    </Text>
+    <Text Id="__SingleUse_0HV2" TypographyId="Typography_01" Alignment="Center" Direction="LTR">
+      <Translation Language="GB">&lt;battery_state&gt;%</Translation>
+    </Text>
+    <Text Id="__SingleUse_8EX7" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
+      <Translation Language="GB">100</Translation>
+    </Text>
+    <Text Id="__SingleUse_5KCX" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
+      <Translation Language="GB">KM/H</Translation>
     </Text>
   </Texts>
   <Typographies>
-    <Typography Id="Typography_00" Font="DS-DIGIB.ttf" Size="83" Bpp="4" FallbackCharacter="?" WildcardCharacters="0-9" />
+    <Typography Id="Typography_00" Font="DS-DIGI.TTF" Size="60" Bpp="4" FallbackCharacter="*" WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_01" Font="DS-DIGI.TTF" Size="16" Bpp="4" FallbackCharacter="*" WildcardCharacterRanges="0-9" />
   </Typographies>
 </TextDatabase>

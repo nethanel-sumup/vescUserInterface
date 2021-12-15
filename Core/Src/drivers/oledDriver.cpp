@@ -154,10 +154,6 @@ void OledDriver::FillColor(Color rgb888)
 
 void OledDriver::SetCoordinates(uint16_t x, uint16_t y)
 {
-//  if (rotation_ & 1)
-//  {
-//	  swap(x, y);
-//  }
   if ((x >= ScreenWidth) || (y >= ScreenHeight))
     return;
   //Set x and y coordinate
@@ -277,7 +273,7 @@ void OledDriver::DeviceInit(void)
   // 2   Color remap (0: A->B->C, 1: C->B->A)
   // 1   Column remap (0: 0-127, 1: 127-0)
   // 0   Address increment (0: horizontal, 1: vertical)
-  WriteData(0b01100100 | 0b00000010);
+  WriteData(0b01100000 | 0b00000110);
 
   WriteCommand(SSD1351_CMD_STARTLINE);  //set display start line
   WriteData(0x00);     //start 00 line

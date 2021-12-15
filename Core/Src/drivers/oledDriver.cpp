@@ -99,8 +99,8 @@ void OledDriver::WriteMultipleData(uint16_t *data, uint16_t length)
 
 	for (int i = 0; i < length; i++)
 	{
-	  buffer[0] = data[i] & 0xFF;
-	  buffer[1] = (data[i] >> 8) & 0xFF;
+	  buffer[1] = data[i] & 0xFF;
+	  buffer[0] = (data[i] >> 8) & 0xFF;
 	  while (HAL_SPI_Transmit(&hspi1, buffer, 2, 0x10) != HAL_OK);
 	}
 

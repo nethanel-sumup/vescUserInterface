@@ -20,40 +20,12 @@
             "CustomContainerDefinitionName": "battery"
           },
           {
-            "Type": "TextArea",
-            "Name": "km_h",
-            "X": 96,
-            "Y": 56,
-            "Width": 31,
-            "Height": 16,
-            "TextId": "__SingleUse_5KCX",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 255,
-              "Green": 255,
-              "Blue": 255
-            },
-            "AutoSize": true
-          },
-          {
-            "Type": "TextArea",
-            "Name": "speedText",
-            "X": 32,
-            "Y": 12,
-            "Width": 64,
-            "Height": 65,
-            "TextId": "__SingleUse_FEAW",
-            "TextRotation": "0",
-            "Color": {
-              "Red": 255,
-              "Green": 255,
-              "Blue": 255
-            },
-            "Wildcard1": {
-              "TextId": "__SingleUse_3CU2",
-              "UseBuffer": true,
-              "BufferSize": 10
-            }
+            "Type": "CustomContainerInstance",
+            "Name": "speed1",
+            "X": 42,
+            "Width": 85,
+            "Height": 102,
+            "CustomContainerDefinitionName": "speed"
           }
         ],
         "Interactions": []
@@ -74,7 +46,7 @@
           },
           {
             "Type": "TextArea",
-            "Name": "battery_txt",
+            "Name": "batteryText",
             "Y": 80,
             "Width": 33,
             "Height": 20,
@@ -93,6 +65,60 @@
           }
         ],
         "Interactions": []
+      },
+      {
+        "Name": "speed",
+        "X": 42,
+        "Width": 85,
+        "Height": 102,
+        "Components": [
+          {
+            "Type": "TextArea",
+            "Name": "km_h",
+            "X": 39,
+            "Y": 64,
+            "Width": 39,
+            "Height": 20,
+            "TextId": "__SingleUse_BVNV",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "speedText",
+            "X": 9,
+            "Y": -6,
+            "Width": 69,
+            "Height": 70,
+            "TextId": "__SingleUse_G1TO",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_8CJL",
+              "UseBuffer": true,
+              "BufferSize": 3
+            }
+          }
+        ],
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetValue",
+            "Description": "Set the speed value in km/h",
+            "HasValue": true,
+            "ValueType": "int32_t"
+          }
+        ]
       }
     ],
     "Name": "MyApplication",

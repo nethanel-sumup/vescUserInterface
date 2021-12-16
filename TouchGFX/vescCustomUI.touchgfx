@@ -28,11 +28,11 @@
           },
           {
             "Type": "Image",
-            "Name": "image1",
-            "X": 102,
-            "Y": 111,
-            "Width": 25,
-            "Height": 17,
+            "Name": "image2",
+            "X": 107,
+            "Y": 112,
+            "Width": 20,
+            "Height": 16,
             "RelativeFilename": "light.png"
           }
         ],

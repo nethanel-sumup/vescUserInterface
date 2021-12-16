@@ -201,23 +201,13 @@ void StartDefaultTask(void *argument)
 
   HAL_UART_Receive_IT(&huart2, &_received_char, 1);
 
-  //ui_initialize();
-  //ui_fill_battery(100);
   /* Infinite loop */
-  int counter = 0;
-
   for(;;)
   {
     //bldc_interface_get_values();
 
 	signal_vsync();
     osDelay(60);
-    counter++;
-    if (counter > 10)
-    {
-      counter = 0;
-    }
-
   }
   /* USER CODE END StartDefaultTask */
 }

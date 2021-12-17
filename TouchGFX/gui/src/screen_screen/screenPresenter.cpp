@@ -16,3 +16,13 @@ void screenPresenter::deactivate()
 {
 
 }
+
+void screenPresenter::NotifyBatteryLevelChanged(float level)
+{
+	view.SetBatteryLevel(level);
+}
+
+void screenPresenter::NotifySpeedChanged(int speed)
+{
+	view.SetSpeed(speed);
+}

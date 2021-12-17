@@ -14,6 +14,10 @@ public:
     {
         model = m;
     }
+
+    virtual void NotifyBatteryLevelChanged(float level) {}
+    virtual void NotifySpeedChanged(int speed) {}
+
 protected:
     Model* model;
 };

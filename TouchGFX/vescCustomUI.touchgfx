@@ -7,6 +7,7 @@
           {
             "Type": "Box",
             "Name": "box1",
+            "X": -1,
             "Width": 128,
             "Height": 128
           },
@@ -28,7 +29,7 @@
           },
           {
             "Type": "Image",
-            "Name": "image2",
+            "Name": "light",
             "X": 107,
             "Y": 112,
             "Width": 20,
@@ -48,19 +49,17 @@
           {
             "Type": "Image",
             "Name": "battery_img",
-            "X": 4,
-            "Width": 33,
+            "Width": 42,
             "Height": 80,
-            "LockPosition": true,
-            "RelativeFilename": "battery.png"
+            "RelativeFilename": "battery2.png"
           },
           {
             "Type": "TextArea",
             "Name": "batteryText",
+            "X": 3,
             "Y": 80,
-            "Width": 38,
+            "Width": 26,
             "Height": 16,
-            "LockPosition": true,
             "TextId": "__SingleUse_0HV2",
             "TextRotation": "0",
             "Color": {
@@ -70,7 +69,7 @@
             },
             "AutoSize": true,
             "Wildcard1": {
-              "TextId": "__SingleUse_8EX7",
+              "TextId": "__SingleUse_ZVEE",
               "UseBuffer": true,
               "BufferSize": 8
             }
@@ -78,18 +77,39 @@
           {
             "Type": "Box",
             "Name": "filler",
-            "X": 6,
-            "Y": 6,
-            "Width": 29,
-            "Height": 71,
-            "LockPosition": true,
+            "X": 3,
+            "Y": 77,
+            "Width": 36,
             "Color": {
               "Green": 106,
               "Blue": 255
             }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "volts",
+            "X": 31,
+            "Y": 80,
+            "Width": 8,
+            "Height": 16,
+            "TextId": "__SingleUse_78C3",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255
+            },
+            "AutoSize": true
           }
         ],
-        "Interactions": []
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetValue",
+            "Description": "Set the value of the battery",
+            "HasValue": true,
+            "ValueType": "float"
+          }
+        ]
       },
       {
         "Name": "speed",
@@ -100,7 +120,7 @@
           {
             "Type": "TextArea",
             "Name": "km_h",
-            "X": 39,
+            "X": 50,
             "Y": 64,
             "Width": 31,
             "Height": 16,
@@ -108,8 +128,7 @@
             "TextRotation": "0",
             "Color": {
               "Red": 255,
-              "Green": 255,
-              "Blue": 255
+              "Green": 255
             },
             "AutoSize": true
           },
@@ -117,9 +136,9 @@
             "Type": "TextArea",
             "Name": "speedText",
             "X": 9,
-            "Y": -6,
-            "Width": 69,
-            "Height": 70,
+            "Y": -16,
+            "Width": 78,
+            "Height": 80,
             "TextId": "__SingleUse_G1TO",
             "TextRotation": "0",
             "Color": {

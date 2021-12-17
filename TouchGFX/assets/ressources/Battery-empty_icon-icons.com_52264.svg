@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="34px" height="64px" viewBox="0 0 34 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.3 (7891) - http://www.bohemiancoding.com/sketch -->
+    <title>Battery-empty</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <path d="M31,6 L25,6 L25,3 C25,1.9 24.1,1 23,1 L12,1 C10.9,1 10,1.9 10,3 L10,6 L3,6 C1.9,6 1,6.9 1,8 L1,61 C1,62.1 1.9,63 3,63 L31,63 C32.1,63 33,62.1 33,61 L33,8 C33,6.9 32.1,6 31,6 L31,6 Z" id="Battery-empty" stroke="#6B6C6E" stroke-width="2" sketch:type="MSShapeGroup"></path>
+    </g>
+</svg>

@@ -11,6 +11,16 @@ public:
     virtual ~screenView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
+    virtual void SetBatteryLevel(float level)
+    {
+    	battery1.SetValue(level);
+    	this->invalidate();
+    }
+    virtual void SetSpeed(int speed)
+    {
+    	speed1.SetValue(speed);
+    	this->invalidate();
+    }
 protected:
 
 };

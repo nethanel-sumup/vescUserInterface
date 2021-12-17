@@ -14,8 +14,25 @@ public:
     }
 
     void tick();
+
+    float GetCurrentBatteryLevel() const
+	{
+		return currentBatteryLevel;
+	}
+
+    int GetCurrentSpeed() const
+    {
+    	return currentSpeed;
+    }
+
 protected:
     ModelListener* modelListener;
+    float level;
+    int speed;
+
+private:
+    float currentBatteryLevel;
+    int currentSpeed;
 };
 
 #endif // MODEL_HPP

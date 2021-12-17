@@ -2,7 +2,7 @@
   "Application": {
     "Screens": [
       {
-        "Name": "screen",
+        "Name": "mainScreen",
         "Components": [
           {
             "Type": "Box",
@@ -171,7 +171,7 @@
       "Height": 128
     },
     "SelectedColorDepth": 16,
-    "StartupScreenName": "screen",
+    "StartupScreenName": "mainScreen",
     "SelectedStartupLanguage": "GB",
     "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",

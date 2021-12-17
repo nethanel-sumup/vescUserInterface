@@ -1,14 +1,14 @@
 #ifndef SCREENVIEW_HPP
 #define SCREENVIEW_HPP
 
-#include <gui_generated/screen_screen/screenViewBase.hpp>
-#include <gui/screen_screen/screenPresenter.hpp>
+#include <gui/mainscreen_screen/mainScreenPresenter.hpp>
+#include <gui_generated/mainscreen_screen/mainScreenViewBase.hpp>
 
-class screenView : public screenViewBase
+class mainScreenView : public mainScreenViewBase
 {
 public:
-    screenView();
-    virtual ~screenView() {}
+    mainScreenView();
+    virtual ~mainScreenView() {}
     virtual void setupScreen();
     virtual void tearDownScreen();
     virtual void SetBatteryLevel(float level)

@@ -19,6 +19,9 @@
     <Text Id="__SingleUse_ZVEE" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
       <Translation Language="GB">00.0</Translation>
     </Text>
+    <Text Id="__SingleUse_V7E8" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
+      <Translation Language="GB">A</Translation>
+    </Text>
   </Texts>
   <Typographies>
     <Typography Id="Typography_00" Font="DS-DIGI.TTF" Size="80" Bpp="4" FallbackCharacter="*" WildcardCharacterRanges="0-9" />

@@ -5,34 +5,32 @@ class ModelListener;
 
 class Model
 {
-public:
+  public:
     Model();
 
-    void bind(ModelListener* listener)
+    void bind(ModelListener *listener)
     {
-        modelListener = listener;
+      modelListener = listener;
     }
 
     void tick();
 
     float GetCurrentBatteryLevel() const
-	{
-		return currentBatteryLevel;
-	}
+    {
+      return currentBatteryLevel;
+    }
 
     int GetCurrentSpeed() const
     {
-    	return currentSpeed;
+      return currentSpeed;
     }
 
-protected:
-    ModelListener* modelListener;
-    float level;
-    int speed;
-
-private:
+  protected:
+    ModelListener *modelListener;
     float currentBatteryLevel;
     int currentSpeed;
+    int currentLightState;
+
 };
 
 #endif // MODEL_HPP

@@ -23,18 +23,18 @@
             "Type": "CustomContainerInstance",
             "Name": "speed1",
             "X": 42,
-            "Width": 85,
-            "Height": 100,
+            "Width": 86,
+            "Height": 80,
             "CustomContainerDefinitionName": "speed"
           },
           {
-            "Type": "Image",
-            "Name": "light",
-            "X": 107,
-            "Y": 112,
-            "Width": 20,
+            "Type": "CustomContainerInstance",
+            "Name": "light1",
+            "X": 52,
+            "Y": 78,
+            "Width": 40,
             "Height": 16,
-            "RelativeFilename": "light.png"
+            "CustomContainerDefinitionName": "light"
           }
         ],
         "Interactions": []
@@ -49,9 +49,9 @@
           {
             "Type": "Image",
             "Name": "battery_img",
-            "Width": 42,
+            "Width": 43,
             "Height": 80,
-            "RelativeFilename": "battery2.png"
+            "RelativeFilename": "battery.png"
           },
           {
             "Type": "TextArea",
@@ -79,7 +79,7 @@
             "Name": "filler",
             "X": 3,
             "Y": 77,
-            "Width": 36,
+            "Width": 37,
             "Color": {
               "Green": 106,
               "Blue": 255
@@ -114,8 +114,8 @@
       {
         "Name": "speed",
         "X": 42,
-        "Width": 85,
-        "Height": 100,
+        "Width": 86,
+        "Height": 80,
         "Components": [
           {
             "Type": "TextArea",
@@ -160,7 +160,46 @@
             "Name": "SetValue",
             "Description": "Set the speed value in km/h",
             "HasValue": true,
-            "ValueType": "int32_t"
+            "ValueType": "int"
+          }
+        ]
+      },
+      {
+        "Name": "light",
+        "X": 64,
+        "Y": 64,
+        "Width": 40,
+        "Height": 16,
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "lightImage",
+            "Width": 21,
+            "Height": 16,
+            "RelativeFilename": "light.png"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "lightText",
+            "X": 25,
+            "Width": 8,
+            "Height": 16,
+            "TextId": "__SingleUse_V7E8",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetState",
+            "Description": "Set light state",
+            "HasValue": true,
+            "ValueType": "int"
           }
         ]
       }

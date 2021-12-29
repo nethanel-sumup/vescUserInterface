@@ -2,7 +2,6 @@
 
 mainScreenView::mainScreenView()
 {
-
 }
 
 void mainScreenView::setupScreen()

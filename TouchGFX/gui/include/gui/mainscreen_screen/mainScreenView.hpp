@@ -3,26 +3,45 @@
 
 #include <gui/mainscreen_screen/mainScreenPresenter.hpp>
 #include <gui_generated/mainscreen_screen/mainScreenViewBase.hpp>
+#include <BitmapDatabase.hpp>
 
-class mainScreenView : public mainScreenViewBase
+class mainScreenView: public mainScreenViewBase
 {
-public:
+  public:
     mainScreenView();
-    virtual ~mainScreenView() {}
+
+    virtual ~mainScreenView()
+    {
+    }
+
     virtual void setupScreen();
+
     virtual void tearDownScreen();
+
     virtual void SetBatteryLevel(float level)
     {
-    	battery1.SetValue(level);
-    	this->invalidate();
+      battery1.SetValue(level);
+
+      // force screen refresh
+      invalidate();
     }
+
     virtual void SetSpeed(int speed)
     {
-    	speed1.SetValue(speed);
-    	this->invalidate();
-    }
-protected:
+      speed1.SetValue(speed);
 
+      // force screen refresh
+      invalidate();
+    }
+
+    virtual void SetLightState(int state)
+    {
+      light1.SetState(state);
+
+      // force screen refresh
+      invalidate();
+    }
+  protected:
 };
 
 #endif // SCREENVIEW_HPP

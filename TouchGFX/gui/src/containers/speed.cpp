@@ -10,7 +10,7 @@ void speed::initialize()
   speedBase::initialize();
 }
 
-void speed::SetValue(int32_t value)
+void speed::SetValue(int value)
 {
   Unicode::snprintf(speedTextBuffer, SPEEDTEXT_SIZE, "%d", value);
 }

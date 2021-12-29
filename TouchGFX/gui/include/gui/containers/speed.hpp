@@ -11,7 +11,7 @@ public:
 
     virtual void initialize();
 
-    virtual void SetValue(int32_t value);
+    virtual void SetValue(int value);
 protected:
 };
 

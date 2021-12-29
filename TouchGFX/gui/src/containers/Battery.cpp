@@ -1,17 +1,17 @@
-#include <gui/containers/battery.hpp>
+#include <gui/containers/Battery.hpp>
 #include <touchgfx/Color.hpp>
 
-battery::battery()
+Battery::Battery()
 {
 
 }
 
-void battery::initialize()
+void Battery::initialize()
 {
-  batteryBase::initialize();
+  BatteryBase::initialize();
 }
 
-void battery::SetValue(float value)
+void Battery::SetValue(float value)
 {
   Unicode::snprintfFloat(batteryTextBuffer, BATTERYTEXT_SIZE, "%.1f", value);
   int16_t height = (kMaxFillerHeight * (((value - kMinLevel) * 100) / kWorkRange)) / 100;

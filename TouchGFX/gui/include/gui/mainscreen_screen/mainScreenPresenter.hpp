@@ -30,6 +30,7 @@ public:
     virtual void NotifyBatteryLevelChanged(float level);
     virtual void NotifySpeedChanged(int speed);
     virtual void NotifyLightStateChanged(int state);
+    virtual void NotifyMotorCurrentChanged(float current);
 
 private:
     mainScreenPresenter();

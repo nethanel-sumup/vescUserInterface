@@ -28,3 +28,8 @@ void mainScreenPresenter::NotifyLightStateChanged(int state)
 {
   view.SetLightState(state);
 }
+
+void mainScreenPresenter::NotifyMotorCurrentChanged(float current)
+{
+  view.SetMotorCurrent(current);
+}

@@ -1,9 +1,8 @@
-#ifndef LIGHT_HPP
-#define LIGHT_HPP
+#pragma once
 
-#include <gui_generated/containers/lightBase.hpp>
+#include <gui_generated/containers/LightBase.hpp>
 
-class light : public lightBase
+class Light : public LightBase
 {
 public:
     /** Light On */
@@ -13,8 +12,8 @@ public:
     /** Light auto */
     static constexpr const int kStateAuto = 2;
 
-    light();
-    virtual ~light() {}
+    Light();
+    virtual ~Light() {}
 
     virtual void initialize();
     virtual void SetState(int value);
@@ -22,5 +21,3 @@ public:
 protected:
     int currentState;
 };
-
-#endif // LIGHT_HPP

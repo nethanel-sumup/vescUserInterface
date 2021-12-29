@@ -1,15 +1,15 @@
-#include <gui/containers/light.hpp>
+#include <gui/containers/Light.hpp>
 
-light::light() : currentState(kStateAuto)
+Light::Light() : currentState(kStateAuto)
 {
 }
 
-void light::initialize()
+void Light::initialize()
 {
-  lightBase::initialize();
+  LightBase::initialize();
 }
 
-void light::SetState(int value)
+void Light::SetState(int value)
 {
   // Nothing to do if current state is already up-to-date
   if (value == currentState)

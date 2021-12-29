@@ -20,24 +20,28 @@ class mainScreenView: public mainScreenViewBase
 
     virtual void SetBatteryLevel(float level)
     {
-      battery1.SetValue(level);
-
+      battery_container_.SetValue(level);
       // force screen refresh
       invalidate();
     }
 
     virtual void SetSpeed(int speed)
     {
-      speed1.SetValue(speed);
-
+      speed_container_.SetValue(speed);
       // force screen refresh
       invalidate();
     }
 
     virtual void SetLightState(int state)
     {
-      light1.SetState(state);
+      light_container_.SetState(state);
+      // force screen refresh
+      invalidate();
+    }
 
+    virtual void SetMotorCurrent(float current)
+    {
+      current_container_.SetCurrent(current);
       // force screen refresh
       invalidate();
     }

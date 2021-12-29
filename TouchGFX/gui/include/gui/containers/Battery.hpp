@@ -1,9 +1,8 @@
-#ifndef BATTERY_HPP
-#define BATTERY_HPP
+#pragma once
 
-#include <gui_generated/containers/batteryBase.hpp>
+#include <gui_generated/containers/BatteryBase.hpp>
 
-class battery : public batteryBase
+class Battery : public BatteryBase
 {
 private:
 	static constexpr const float kMaxLevel = 43; // Maximum battery voltage (assuming a 10s battery)
@@ -16,13 +15,11 @@ private:
 	static constexpr const float kOrangeZoneStart = kMaxFillerHeight * 0.2; // Battery level correct
 
 public:
-    battery();
-    virtual ~battery() {}
+    Battery();
+    virtual ~Battery() {}
 
     virtual void initialize();
 
     virtual void SetValue(float value);
 protected:
 };
-
-#endif // BATTERY_HPP

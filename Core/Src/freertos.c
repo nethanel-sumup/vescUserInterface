@@ -44,6 +44,8 @@ extern "C" {
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+static void send_esc_values(mc_values *val);
+static void send_motor_configuration(mc_configuration *val);
 
 /* USER CODE END PD */
 
@@ -85,6 +87,16 @@ const osThreadAttr_t TouchGFXTask_attributes = {
   .name = "TouchGFXTask",
   .stack_size = 1024 * 4,
   .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for ESCRealTimeDataQ */
+osMessageQueueId_t ESCRealTimeDataQHandle;
+const osMessageQueueAttr_t ESCRealTimeDataQ_attributes = {
+  .name = "ESCRealTimeDataQ"
+};
+/* Definitions for ESCMotorConfigQ */
+osMessageQueueId_t ESCMotorConfigQHandle;
+const osMessageQueueAttr_t ESCMotorConfigQ_attributes = {
+  .name = "ESCMotorConfigQ"
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -138,6 +150,13 @@ void MX_FREERTOS_Init(void) {
   /* start timers, add new ones, ... */
   /* USER CODE END RTOS_TIMERS */
 
+  /* Create the queue(s) */
+  /* creation of ESCRealTimeDataQ */
+  ESCRealTimeDataQHandle = osMessageQueueNew (1, sizeof(mc_values), &ESCRealTimeDataQ_attributes);
+
+  /* creation of ESCMotorConfigQ */
+  ESCMotorConfigQHandle = osMessageQueueNew (1, sizeof(mc_configuration), &ESCMotorConfigQ_attributes);
+
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
@@ -179,14 +198,22 @@ void StartDefaultTask(void *argument)
   comm_uart_init();
 
   // Give bldc_interface a function to call when values are received.
-  bldc_interface_set_rx_value_func(ui_print_esc_values);
+  bldc_interface_set_rx_value_func(send_esc_values);
+  // Give bldc_interface a function to call when motor configuration is received.
+  bldc_interface_set_rx_mcconf_func(send_motor_configuration);
 
   HAL_UART_Receive_IT(&huart2, &_received_char, 1);
+
+  int sample = 0;
 
   /* Infinite loop */
   for(;;)
   {
-    bldc_interface_get_values();
+    if (++sample == 4)
+    {
+      bldc_interface_get_values();
+      sample = 0;
+    }
 
     signal_vsync();
     osDelay(60);
@@ -200,6 +227,29 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
   rxchar(&huart2, _received_char);
   HAL_UART_Receive_IT(&huart2, &_received_char, 1);
+}
+
+void send_esc_values(mc_values *val)
+{
+  osMessageQueuePut(ESCRealTimeDataQHandle, val, 0, 0);
+//  printf("Input voltage: %.2f V\r\n", val->v_in);
+//  printf("Temp:          %.2f degC\r\n", val->temp_mos);
+//  printf("Current motor: %.2f A\r\n", val->current_motor);
+//  printf("Current in:    %.2f A\r\n", val->current_in);
+//  printf("RPM:           %.1f RPM\r\n", val->rpm);
+//  printf("Duty cycle:    %.1f %%\r\n", val->duty_now * 100.0);
+//  printf("Ah Drawn:      %.4f Ah\r\n", val->amp_hours);
+//  printf("Ah Regen:      %.4f Ah\r\n", val->amp_hours_charged);
+//  printf("Wh Drawn:      %.4f Wh\r\n", val->watt_hours);
+//  printf("Wh Regen:      %.4f Wh\r\n", val->watt_hours_charged);
+//  printf("Tacho:         %i counts\r\n", val->tachometer);
+//  printf("Tacho ABS:     %i counts\r\n", val->tachometer_abs);
+//  printf("Fault Code:    %s\r\n", bldc_interface_fault_to_string(val->fault_code));
+}
+
+void send_motor_configuration(mc_configuration *val)
+{
+  osMessageQueuePut(ESCMotorConfigQHandle, val, 0, 0);
 }
 
 #ifdef __cplusplus

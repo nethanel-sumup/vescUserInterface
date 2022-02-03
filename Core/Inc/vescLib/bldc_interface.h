@@ -20,6 +20,10 @@
 
 #include "datatypes.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 // interface functions
 void bldc_interface_init(void(*func)(unsigned char *data, unsigned int len));
 void bldc_interface_set_forward_func(void(*func)(unsigned char *data, unsigned int len));
@@ -41,7 +45,7 @@ void bldc_interface_set_rx_dec_chuk_func(void(*func)(float val));
 void bldc_interface_set_rx_mcconf_received_func(void(*func)(void));
 void bldc_interface_set_rx_appconf_received_func(void(*func)(void));
 
-void bldc_interface_set_sim_control_function(void(*func)(motor_control_mode mode, float value));
+//void bldc_interface_set_sim_control_function(void(*func)(motor_control_mode mode, float value));
 void bldc_interface_set_sim_values_func(void(*func)(void));
 
 // Setters
@@ -73,5 +77,9 @@ void send_values_to_receiver(mc_values *values);
 
 // Helpers
 const char* bldc_interface_fault_to_string(mc_fault_code fault);
+
+#ifdef __cplusplus
+} // extern "C"
+#endif
 
 #endif /* BLDC_INTERFACE_H_ */

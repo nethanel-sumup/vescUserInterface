@@ -19,6 +19,7 @@ public:
     virtual void NotifySpeedChanged(int speed) {}
     virtual void NotifyLightStateChanged(int state) {}
     virtual void NotifyMotorCurrentChanged(float current) {}
+    virtual void NotifyDistanceChanged(float distance) {}
 
 protected:
     Model* model;

@@ -33,3 +33,8 @@ void mainScreenPresenter::NotifyMotorCurrentChanged(float current)
 {
   view.SetMotorCurrent(current);
 }
+
+void mainScreenPresenter::NotifyDistanceChanged(float distance)
+{
+  view.SetDistance(distance);
+}

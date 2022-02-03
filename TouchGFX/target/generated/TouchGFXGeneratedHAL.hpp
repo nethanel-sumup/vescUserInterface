@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2022 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -172,12 +172,7 @@ public:
      * @param rect The area of the screen expressed in absolute coordinates, which has to be transformed to address.
      *
      */
-    inline uint8_t* advanceFrameBufferToRect(uint8_t* fbPtr, const touchgfx::Rect& rect) const
-    {
-    	//       Advance vertically                   Advance horizontally
-		fbPtr += rect.y * lcd().framebufferStride() + rect.x * 2;
-		return fbPtr;
-    }
+    inline uint8_t* advanceFrameBufferToRect(uint8_t* fbPtr, const touchgfx::Rect& rect) const;
 
 protected:
     /**

@@ -45,6 +45,13 @@ class mainScreenView: public mainScreenViewBase
       // force screen refresh
       invalidate();
     }
+
+    virtual void SetDistance(float distance)
+    {
+      distance_container_.SetValue(distance);
+      // force screen refresh
+      invalidate();
+    }
   protected:
 };
 

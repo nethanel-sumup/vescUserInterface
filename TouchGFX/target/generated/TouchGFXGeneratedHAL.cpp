@@ -6,7 +6,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2021 STMicroelectronics.
+  * Copyright (c) 2022 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -63,6 +63,13 @@ void TouchGFXGeneratedHAL::endFrame()
 {
     HAL::endFrame();
 
+}
+
+inline uint8_t* TouchGFXGeneratedHAL::advanceFrameBufferToRect(uint8_t* fbPtr, const touchgfx::Rect& rect) const
+{
+    //       Advance vertically                   Advance horizontally
+    fbPtr += rect.y * lcd().framebufferStride() + rect.x * 2;
+    return fbPtr;
 }
 
 uint16_t* TouchGFXGeneratedHAL::getTFTFrameBuffer() const

@@ -41,7 +41,7 @@
             "Type": "CustomContainerInstance",
             "Name": "current_container_",
             "X": 57,
-            "Y": 80,
+            "Y": 82,
             "Width": 70,
             "Height": 20,
             "CustomContainerDefinitionName": "Current"
@@ -285,8 +285,7 @@
           {
             "Type": "TextArea",
             "Name": "distanceText",
-            "X": 30,
-            "Width": 33,
+            "Width": 65,
             "Height": 20,
             "TextId": "__SingleUse_JC55",
             "TextRotation": "0",
@@ -295,7 +294,6 @@
               "Green": 255,
               "Blue": 255
             },
-            "AutoSize": true,
             "Wildcard1": {
               "TextId": "__SingleUse_O6PL",
               "UseBuffer": true,

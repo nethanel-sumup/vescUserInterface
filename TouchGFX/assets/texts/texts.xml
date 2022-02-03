@@ -42,8 +42,8 @@
     </Text>
   </Texts>
   <Typographies>
-    <Typography Id="Typography_00" Font="DS-DIGI.TTF" Size="80" Bpp="4" FallbackCharacter="*" WildcardCharacterRanges="0-9" />
-    <Typography Id="Typography_01" Font="DS-DIGI.TTF" Size="16" Bpp="4" FallbackCharacter="*" WildcardCharacterRanges="0-9" />
-    <Typography Id="Typography_02" Font="DS-DIGI.TTF" Size="20" Bpp="4" FallbackCharacter="*" WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_00" Font="DS-DIGI.TTF" Size="80" Bpp="4" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_01" Font="DS-DIGI.TTF" Size="16" Bpp="4" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_02" Font="DS-DIGI.TTF" Size="20" Bpp="4" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
   </Typographies>
 </TextDatabase>

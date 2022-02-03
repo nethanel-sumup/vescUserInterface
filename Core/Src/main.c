@@ -106,7 +106,6 @@ int main(void)
   MX_ADC1_Init();
   MX_CRC_Init();
   MX_RTC_Init();
-  MX_USART1_UART_Init();
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
 

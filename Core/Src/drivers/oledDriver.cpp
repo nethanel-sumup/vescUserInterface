@@ -240,30 +240,29 @@ void OledDriver::DeviceInit(void)
   OLED_RST(GPIO_PIN_SET);
   osDelay(50);
 
-  WriteCommand(0xfd);	// command lock
+  WriteCommand(SSD1351_CMD_COMMANDLOCK);
   WriteData(0x12);
 
-  WriteCommand(0xfd);	// command lock
+  WriteCommand(SSD1351_CMD_COMMANDLOCK);
   WriteData(0xB1);
 
-  WriteCommand(0xae);	// display off
-  WriteCommand(0xa4); 	// Normal Display mode
+  WriteCommand(SSD1351_CMD_DISPLAYOFF);
 
-  WriteCommand(0x15);	//set column address
+  WriteCommand(SSD1351_CMD_SETCOLUMN);
   WriteData(0x00);     //column address start 00
   WriteData(0x7f);     //column address end 95
-  WriteCommand(0x75);	//set row address
+
+  WriteCommand(SSD1351_CMD_SETROW);
   WriteData(0x00);     //row address start 00
   WriteData(0x7f);     //row address end 63
 
-  WriteCommand(0xB3);  // Internal oscillator frequency
+  WriteCommand(SSD1351_CMD_CLOCKDIV);  // Internal oscillator frequency
   WriteData(0xF1);
 
-  WriteCommand(0xCA);
+  WriteCommand(SSD1351_CMD_MUXRATIO);
   WriteData(0x7F);
 
   WriteCommand(SSD1351_CMD_SETREMAP);  //set re-map & data format
-
   // madctl bits:
   // 6,7 Color depth (01 = 64K)
   // 5   Odd/even split COM (0: disable, 1: enable)
@@ -274,49 +273,47 @@ void OledDriver::DeviceInit(void)
   // 0   Address increment (0: horizontal, 1: vertical)
   WriteData(0b01100000 | 0b00000110);
 
-  WriteCommand(SSD1351_CMD_STARTLINE);  //set display start line
+  WriteCommand(SSD1351_CMD_STARTLINE);
   WriteData(0x00);     //start 00 line
 
-  WriteCommand(0xa2);  //set display offset
+  WriteCommand(SSD1351_CMD_DISPLAYOFFSET);
   WriteData(0x00);
 
-  WriteCommand(0xAB);
-  WriteCommand(0x01);
+  WriteCommand(SSD1351_CMD_FUNCTIONSELECT);
+  WriteData(0x01);
 
-  WriteCommand(0xB4);
+  WriteCommand(SSD1351_CMD_SETVSL);
   WriteData(0xA0);
   WriteData(0xB5);
   WriteData(0x55);
 
-  WriteCommand(0xC1);
+  WriteCommand(SSD1351_CMD_CONTRASTABC);
   WriteData(0xC8);
   WriteData(0x80);
   WriteData(0xC8);
 
-  WriteCommand(0xC7);
+  // Full contrast
+  WriteCommand(SSD1351_CMD_CONTRASTMASTER);
   WriteData(0x0F);
 
-  WriteCommand(0xB1);
+  WriteCommand(SSD1351_CMD_PRECHARGE);
   WriteData(0x32);
 
-  WriteCommand(0xB2);  // Display enhancement
+  WriteCommand(SSD1351_CMD_DISPLAYENHANCE);
   WriteData(0xA4);
   WriteData(0x00);
   WriteData(0x00);
 
-  WriteCommand(0xBB);
-  WriteData(0x17);
-
-  WriteCommand(0xB6);
+  WriteCommand(SSD1351_CMD_PRECHARGE2);
   WriteData(0x01);
 
-  WriteCommand(0xBE);
+  WriteCommand(SSD1351_CMD_VCOMH);
   WriteData(0x05);
 
-  WriteCommand(0xA6);
+  WriteCommand(SSD1351_CMD_INVERTDISPLAY);
 
   ClearScreen();
-  WriteCommand(0xaf);	 //display on
+  WriteCommand(SSD1351_CMD_DISPLAYON);
 }
 
 

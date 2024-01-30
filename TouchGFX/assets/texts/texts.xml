@@ -1,49 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.18.0">
+<TextDatabase xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="texts.xsd" Version="4.21.1">
+  <Languages>
+    <Language Id="GB" />
+  </Languages>
   <Texts>
-    <Text Id="__SingleUse_0HV2" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">&lt;battery_level&gt;</Translation>
-    </Text>
-    <Text Id="__SingleUse_BVNV" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">KM/H</Translation>
-    </Text>
-    <Text Id="__SingleUse_G1TO" TypographyId="Typography_00" Alignment="Right" Direction="LTR">
-      <Translation Language="GB" Direction="LTR">&lt;speed&gt;</Translation>
-    </Text>
-    <Text Id="__SingleUse_8CJL" TypographyId="Typography_00" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">00</Translation>
-    </Text>
-    <Text Id="__SingleUse_78C3" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">V</Translation>
-    </Text>
-    <Text Id="__SingleUse_ZVEE" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">00.0</Translation>
-    </Text>
-    <Text Id="__SingleUse_V7E8" TypographyId="Typography_01" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">A</Translation>
-    </Text>
-    <Text Id="__SingleUse_YPMB" TypographyId="Typography_02" Alignment="Right" Direction="LTR">
-      <Translation Language="GB">&lt;current&gt;</Translation>
-    </Text>
-    <Text Id="__SingleUse_DHT6" TypographyId="Typography_02" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">00.00</Translation>
-    </Text>
-    <Text Id="__SingleUse_Y3MH" TypographyId="Typography_02" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">A</Translation>
-    </Text>
-    <Text Id="__SingleUse_JC55" TypographyId="Typography_02" Alignment="Right" Direction="LTR">
-      <Translation Language="GB">&lt;distance&gt;</Translation>
-    </Text>
-    <Text Id="__SingleUse_O6PL" TypographyId="Typography_02" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">00.0</Translation>
-    </Text>
-    <Text Id="__SingleUse_6R3C" TypographyId="Typography_02" Alignment="Left" Direction="LTR">
-      <Translation Language="GB">KM</Translation>
-    </Text>
+    <TextGroup Id="Group1">
+      <Text Id="__SingleUse_0HV2" Alignment="Left" TypographyId="Typography_01">
+        <Translation Language="GB">&lt;battery_level&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_BVNV" Alignment="Left" TypographyId="Typography_01">
+        <Translation Language="GB">KM/H</Translation>
+      </Text>
+      <Text Id="__SingleUse_G1TO" Alignment="Right" TypographyId="Typography_00_A">
+        <Translation Language="GB">&lt;speed&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_8CJL" Alignment="Left" TypographyId="Typography_00">
+        <Translation Language="GB">00</Translation>
+      </Text>
+      <Text Id="__SingleUse_78C3" Alignment="Left" TypographyId="Typography_01">
+        <Translation Language="GB">V</Translation>
+      </Text>
+      <Text Id="__SingleUse_ZVEE" Alignment="Left" TypographyId="Typography_01">
+        <Translation Language="GB">00.0</Translation>
+      </Text>
+      <Text Id="__SingleUse_V7E8" Alignment="Left" TypographyId="Typography_01">
+        <Translation Language="GB">A</Translation>
+      </Text>
+      <Text Id="__SingleUse_YPMB" Alignment="Right" TypographyId="Typography_02">
+        <Translation Language="GB">&lt;current&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_DHT6" Alignment="Left" TypographyId="Typography_02">
+        <Translation Language="GB">00.00</Translation>
+      </Text>
+      <Text Id="__SingleUse_Y3MH" Alignment="Left" TypographyId="Typography_02">
+        <Translation Language="GB">A</Translation>
+      </Text>
+      <Text Id="__SingleUse_JC55" Alignment="Right" TypographyId="Typography_02">
+        <Translation Language="GB">&lt;distance&gt;</Translation>
+      </Text>
+      <Text Id="__SingleUse_O6PL" Alignment="Left" TypographyId="Typography_02">
+        <Translation Language="GB">00.0</Translation>
+      </Text>
+      <Text Id="__SingleUse_6R3C" Alignment="Left" TypographyId="Typography_02">
+        <Translation Language="GB">KM</Translation>
+      </Text>
+    </TextGroup>
   </Texts>
   <Typographies>
-    <Typography Id="Typography_00" Font="DS-DIGI.TTF" Size="80" Bpp="4" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
-    <Typography Id="Typography_01" Font="DS-DIGI.TTF" Size="16" Bpp="4" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
-    <Typography Id="Typography_02" Font="DS-DIGI.TTF" Size="20" Bpp="4" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_01" Font="DS-DIGI.TTF" Size="16" Bpp="4" Direction="LTR" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_00_A" Font="DS-DIGI.TTF" Size="80" Bpp="4" Direction="LTR" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9">
+      <LanguageSetting Language="GB" Font="DS-DIGI.TTF" Size="80" Bpp="4" Direction="LTR" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
+    </Typography>
+    <Typography Id="Typography_00" Font="DS-DIGI.TTF" Size="80" Bpp="4" Direction="LTR" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
+    <Typography Id="Typography_02" Font="DS-DIGI.TTF" Size="20" Bpp="4" Direction="LTR" FallbackCharacter="*" WildcardCharacters="-" WildcardCharacterRanges="0-9" />
   </Typographies>
 </TextDatabase>

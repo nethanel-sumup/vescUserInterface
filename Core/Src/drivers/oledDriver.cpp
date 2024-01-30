@@ -310,7 +310,7 @@ void OledDriver::DeviceInit(void)
   WriteCommand(SSD1351_CMD_VCOMH);
   WriteData(0x05);
 
-  WriteCommand(SSD1351_CMD_INVERTDISPLAY);
+  WriteCommand(SSD1351_CMD_NORMALDISPLAY);
 
   ClearScreen();
   WriteCommand(SSD1351_CMD_DISPLAYON);

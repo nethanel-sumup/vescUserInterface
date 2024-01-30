@@ -8,75 +8,22 @@
 
 namespace touchgfx
 {
-/**
- * An GeneratedFont has both glyph table and glyph data placed in a flash which
- * supports random access read (i.e. not a NAND flash)
- *
- * @see ConstFont
- */
 class GeneratedFont : public ConstFont
 {
 public:
-    /**
-     * Construct the GeneratedFont.
-     *
-     * @param list                   The array of glyphs known to this font.
-     * @param size                   The number of glyphs in list.
-     * @param height                 The height in pixels of the highest character in this font.
-     * @param pixBelowBase           The maximum number of pixels that can be drawn below the
-     *                               baseline in this font.
-     * @param bitsPerPixel           The number of bits per pixel in this font.
-     * @param byteAlignRow           Are glyphs encoded using A4 format
-     * @param maxLeft                The maximum a character extends to the left.
-     * @param maxRight               The maximum a character extends to the right.
-     * @param glyphDataInternalFlash Pointer to the glyph data for the font, placed in internal
-     *                               flash.
-     * @param kerningList            pointer to the kerning data for the font, placed in internal
-     *                               flash.
-     * @param fallbackChar           The fallback character for the typography in case no glyph is
-     *                               available.
-     * @param ellipsisChar           The ellipsis character used for truncating long texts.
-     * @param gsubTable              Pointer to GSUB table.
-     * @param formsTable             Pointer to contextual forms table.
-     */
-    GeneratedFont(const GlyphNode* list, uint16_t size, uint16_t height, uint8_t pixBelowBase, uint8_t bitsPerPixel, uint8_t byteAlignRow, uint8_t maxLeft, uint8_t maxRight, const uint8_t* const* glyphDataInternalFlash, const KerningNode* kerningList, const Unicode::UnicodeChar fallbackChar, const Unicode::UnicodeChar ellipsisChar, const uint16_t* const gsubData, const FontContextualFormsTable* formsTable);
+    GeneratedFont(const GlyphNode* glyphs, uint16_t numGlyphs, uint16_t height, uint16_t baseline, uint8_t pixAboveTop, uint8_t pixBelowBottom, uint8_t bitsPerPixel, uint8_t byteAlignRow, uint8_t maxLeft, uint8_t maxRight, const uint8_t* const* glyphDataInternalFlash, const KerningNode* kerningList, const Unicode::UnicodeChar fallbackChar, const Unicode::UnicodeChar ellipsisChar, const uint16_t* const gsubData, const FontContextualFormsTable* formsTable);
 
     using ConstFont::getGlyph;
 
-    /**
-     * Obtains a RAM-based pointer to the pixel data for the specified glyph.
-     *
-     * @param glyph The glyph to get the pixels data of.
-     *
-     * @return The pixel data of the glyph.
-     */
     virtual const uint8_t* getPixelData(const GlyphNode* glyph) const;
 
-    /**
-     * Gets the kerning distance between two characters.
-     *
-     * @param prevChar The unicode value of the previous character.
-     * @param glyph    the glyph object for the current character.
-     *
-     * @return The kerning distance between prevChar and glyph char.
-     */
     virtual int8_t getKerning(Unicode::UnicodeChar prevChar, const GlyphNode* glyph) const;
 
-    /**
-     * Gets GSUB table.
-     *
-     * @return The GSUB table or null if font has GSUB no table
-     */
     virtual const uint16_t* getGSUBTable() const
     {
         return gsubTable;
     }
 
-    /**
-     * Gets the contextual forms table used in arabic fonts.
-     *
-     * @return The FontContextualFormsTable or null if the font has no table.
-     */
     virtual const FontContextualFormsTable* getContextualFormsTable() const
     {
         return arabicTable;
@@ -84,7 +31,7 @@ public:
 
 protected:
     GeneratedFont()
-        : ConstFont(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), glyphData(0), kerningData(0), gsubTable(0), arabicTable(0)
+        : ConstFont(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), glyphData(0), kerningData(0), gsubTable(0), arabicTable(0)
     {
     }
 
@@ -105,10 +52,12 @@ struct BinaryFontData
     uint32_t offsetToGSUB;             // uint16_t[]
     uint32_t offsetToArabicTable;      // FontContextualFormsTable
     uint16_t numberOfGlyphs;           // Number of glyphs in Table and Glyphs
-    uint16_t height;                   // Font height from base
-    uint8_t pixBelowBase;              // Max pixels below base
-    uint8_t bitsPerPixel : 7;          // Bpp
-    uint8_t byteAlignRow : 1;          // A4/A2/A1
+    uint16_t fontHeight;               // Font height
+    uint16_t baseline;                 // Distance to baseline
+    uint8_t pixAboveTop;               // Max pixels above top
+    uint8_t pixBelowBottom;            // Max pixels below bottom
+    uint8_t bitsPerPixel;              // Bpp
+    uint8_t byteAlignRow;              // A4/A2/A1
     uint8_t maxLeft;                   // The maximum a glyph extends to the left
     uint8_t maxRight;                  // The maximum a glyph extends to the right
     Unicode::UnicodeChar fallbackChar; // Fallback Character for the font
@@ -121,8 +70,10 @@ public:
     BinaryFont(const struct touchgfx::BinaryFontData* data)
         : GeneratedFont((const GlyphNode*)((const uint8_t*)data + data->offsetToTable),
                         data->numberOfGlyphs,
-                        data->height,
-                        data->pixBelowBase,
+                        data->fontHeight,
+                        data->baseline,
+                        data->pixAboveTop,
+                        data->pixBelowBottom,
                         data->bitsPerPixel,
                         data->byteAlignRow,
                         data->maxLeft,

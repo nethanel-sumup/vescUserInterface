@@ -334,7 +334,6 @@
     "SelectedColorDepth": 16,
     "StartupScreenName": "mainScreen",
     "SelectedStartupLanguage": "GB",
-    "Skin": "Blue",
     "TouchGfxPath": "../Middlewares/ST/touchgfx",
     "UIPath": ".",
     "AvailableColorDepths": [
@@ -377,5 +376,5 @@
     "DisplayOrientation": "Portrait",
     "Family": "STM32F4"
   },
-  "Version": "4.18.0"
+  "Version": "4.21.1"
 }

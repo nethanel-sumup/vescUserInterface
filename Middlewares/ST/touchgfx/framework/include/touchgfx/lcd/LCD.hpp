@@ -1,8 +1,8 @@
 /******************************************************************************
-* Copyright (c) 2018(-2021) STMicroelectronics.
+* Copyright (c) 2018(-2023) STMicroelectronics.
 * All rights reserved.
 *
-* This file is part of the TouchGFX 4.18.0 distribution.
+* This file is part of the TouchGFX 4.21.1 distribution.
 *
 * This software is licensed under terms that can be found in the LICENSE file in
 * the root directory of this software component.
@@ -29,12 +29,12 @@
 #undef LCD
 #endif
 
-#include <touchgfx/hal/Types.hpp>
 #include <touchgfx/Bitmap.hpp>
 #include <touchgfx/Font.hpp>
 #include <touchgfx/TextProvider.hpp>
 #include <touchgfx/TextureMapTypes.hpp>
 #include <touchgfx/Unicode.hpp>
+#include <touchgfx/hal/Types.hpp>
 #include <touchgfx/lcd/DebugPrinter.hpp>
 
 namespace touchgfx
@@ -163,12 +163,47 @@ public:
      *
      * @return Null if it fails, else a pointer to the data in the given bitmap.
      *
-     * @see blitCopy
+     * @see blitCopy, copyFrameBufferRegionToMemory(const Rect&, const Rect&, uint8_t*, int16_t, int16_t)
      *
      * @note There is only one instance of animation storage. The content of the bitmap data
      *       /animation storage outside the given region is left untouched.
      */
     virtual uint16_t* copyFrameBufferRegionToMemory(const Rect& visRegion, const Rect& absRegion, const BitmapId bitmapId) = 0;
+
+    /**
+     * Copies part of the framebuffer to memory. The memory is assumed to have the same format as
+     * the framebuffer. The two regions given are the visible region and the absolute region on
+     * screen. This is used to copy only a part of the framebuffer. This might be the case if a
+     * SnapshotWidget is placed inside a Container where parts of the SnapshowWidget is outside the
+     * area defined by the Container. The visible region must be completely inside the absolute
+     * region.
+     *
+     * @param           visRegion   The visible region.
+     * @param           absRegion   The absolute region.
+     * @param [in,out]  dst         Destination memory in same format as the framebuffer.
+     * @param           dstWidth    Width of the destination.
+     * @param           dstHeight   Height of the destination.
+     *
+     * @return  The rect that was actually copied to the destination buffer.
+     *
+     * @see blitCopy, copyFrameBufferRegionToMemory(const Rect&, const Rect&, const BitmapId)
+     *
+     * @note    There is only one instance of animation storage. The content of the bitmap data
+     *          /animation storage outside the given region is left untouched.
+     */
+    virtual Rect copyFrameBufferRegionToMemory(const Rect& visRegion, const Rect& absRegion, uint8_t* dst, int16_t dstWidth, int16_t dstHeight) = 0;
+
+    /**
+     * Copies part of the displayed framebuffer to current framebuffer.
+     * The region given is the absolute region on screen.
+     *
+     * @param  region               A rectangle describing what region of the displayed framebuffer
+     *                              is to be copied to the framebuffer.
+     *
+     * @note    The copy is performed only when double buffering is enabled. Otherwise the given
+     *          region in current framebuffer is left untouched.
+     */
+    virtual void copyAreaFromTFTToClientBuffer(const Rect& region) = 0;
 
     /**
      * Draws a filled rectangle in the framebuffer in the specified color and opacity. By
@@ -222,21 +257,21 @@ public:
         /**
          * Construct a StringVisual object for rendering text.
          *
-         * @param  font           The Font with which to draw the text.
-         * @param  color          The color with which to draw the text.
-         * @param  alpha          Alpha blending. Default value is 255 (solid)
-         * @param  alignment      How to align the text.
-         * @param  linespace      Line space in pixels between each line, in case the text
-         *                        contains newline characters.
-         * @param  rotation       How to rotate the text.
-         * @param  textDirection  The text direction.
-         * @param  indentation    The indentation of the text from the left and right of the
-         *                        text area rectangle.
-         * @param  wideTextAction (Optional) What to do with lines longer than the width of the
-         *                        TextArea.
+         * @param  svFont           The Font with which to draw the text.
+         * @param  svColor          The color with which to draw the text.
+         * @param  svAlpha          Alpha blending. Default value is 255 (solid)
+         * @param  svAlignment      How to align the text.
+         * @param  svLinespace      Line space in pixels between each line, in case the text contains
+         *                          newline characters.
+         * @param  svRotation       How to rotate the text.
+         * @param  svTextDirection  The text direction.
+         * @param  svIndentation    The indentation of the text from the left and right of the text area
+         *                          rectangle.
+         * @param  svWideTextAction (Optional) What to do with lines longer than the width of the
+         *                          TextArea.
          */
-        StringVisuals(const Font* font, colortype color, uint8_t alpha, Alignment alignment, int16_t linespace, TextRotation rotation, TextDirection textDirection, uint8_t indentation, WideTextAction wideTextAction = WIDE_TEXT_NONE)
-            : font(font), alignment(alignment), textDirection(textDirection), rotation(rotation), color(color), linespace(linespace), alpha(alpha), indentation(indentation), wideTextAction(wideTextAction)
+        StringVisuals(const Font* svFont, colortype svColor, uint8_t svAlpha, Alignment svAlignment, int16_t svLinespace, TextRotation svRotation, TextDirection svTextDirection, uint8_t svIndentation, WideTextAction svWideTextAction = WIDE_TEXT_NONE)
+            : font(svFont), alignment(svAlignment), textDirection(svTextDirection), rotation(svRotation), color(svColor), linespace(svLinespace), alpha(svAlpha), indentation(svIndentation), wideTextAction(svWideTextAction)
         {
         }
     };
@@ -514,7 +549,7 @@ protected:
          *
          * @return true if value is inside given limit.
          */
-        FORCE_INLINE_FUNCTION bool is1Inside(int value, int limit)
+        FORCE_INLINE_FUNCTION bool is1Inside(int value, int limit) const
         {
             return (value >= 0 && value < limit);
         }
@@ -529,7 +564,7 @@ protected:
          *
          * @return true if (x,y) is inside given limits.
          */
-        FORCE_INLINE_FUNCTION bool is1x1Inside(int x, int y, int width, int height)
+        FORCE_INLINE_FUNCTION bool is1x1Inside(int x, int y, int width, int height) const
         {
             return is1Inside(x, width) && is1Inside(y, height);
         }
@@ -542,7 +577,7 @@ protected:
          *
          * @return true if value and value+1 are inside given limit.
          */
-        FORCE_INLINE_FUNCTION bool is2Inside(int value, int limit)
+        FORCE_INLINE_FUNCTION bool is2Inside(int value, int limit) const
         {
             return is1Inside(value, limit - 1);
         }
@@ -557,7 +592,7 @@ protected:
          *
          * @return true if (x,y) and (x+1,y+1) are inside given limits.
          */
-        FORCE_INLINE_FUNCTION bool is2x2Inside(int x, int y, int width, int height)
+        FORCE_INLINE_FUNCTION bool is2x2Inside(int x, int y, int width, int height) const
         {
             return is2Inside(x, width) && is2Inside(y, height);
         }
@@ -570,7 +605,7 @@ protected:
          *
          * @return true if either value or value+1 is inside given limit.
          */
-        FORCE_INLINE_FUNCTION bool is2PartiallyInside(int value, int limit)
+        FORCE_INLINE_FUNCTION bool is2PartiallyInside(int value, int limit) const
         {
             return is1Inside(value + 1, limit + 1);
         }
@@ -585,7 +620,7 @@ protected:
          *
          * @return true if either (x,y) or (x+1,y+1) is inside given limits.
          */
-        FORCE_INLINE_FUNCTION bool is2x2PartiallyInside(int x, int y, int width, int height)
+        FORCE_INLINE_FUNCTION bool is2x2PartiallyInside(int x, int y, int width, int height) const
         {
             return is2PartiallyInside(x, width) && is2PartiallyInside(y, height);
         }
@@ -811,9 +846,10 @@ private:
         {
         }
     };
-    void drawStringRTLLine(int16_t& offset, const Font* font, TextDirection textDirection, TextProvider& textProvider, const int numChars, const bool useEllipsis, DrawStringInternalStruct const* data);
-    void drawStringRTLInternal(int16_t& offset, const Font* font, const TextDirection textDirection, TextProvider& drawTextProvider, const int numChars, const uint16_t widthOfNumChars, DrawStringInternalStruct const* data);
-    bool drawStringInternal(uint16_t* frameBuffer, Rect const* widgetArea, int16_t widgetRectY, int16_t& offset, const Rect& invalidatedArea, StringVisuals const* stringVisuals, const TextDirection textDirection, TextProvider& textProvider, const int numChars, bool useEllipsis);
+
+    void drawStringRTLLine(int16_t& offset, const Font* font, TextDirection textDirection, TextProvider& textProvider, const int numChars, const bool useEllipsis, const DrawStringInternalStruct* data);
+    void drawStringRTLInternal(int16_t& offset, const Font* font, const TextDirection textDirection, TextProvider& drawTextProvider, const int numChars, const uint16_t widthOfNumChars, const DrawStringInternalStruct* data);
+    bool drawStringInternal(uint16_t* frameBuffer, const Rect* widgetArea, int16_t widgetRectY, int16_t offset, const Rect& invalidatedArea, const StringVisuals* stringVisuals, const TextDirection textDirection, TextProvider& textProvider, const int numChars, bool useEllipsis);
 
     /** A wide text internal structure. */
     class WideTextInternalStruct
@@ -822,42 +858,41 @@ private:
         /**
          * Initializes a new instance of the WideTextInternalStruct class.
          *
-         * @param [in] _textProvider  The text provider.
-         * @param      _maxWidth      The maximum width.
-         * @param      _textDirection The text direction.
-         * @param      _font          The font.
-         * @param      action         The action.
+         * @param [in] textProvider The text provider.
+         * @param      width        The maximum width.
+         * @param      height       The height.
+         * @param      direction    The text direction.
+         * @param      _font        The font.
+         * @param      _linespace   The linespace.
+         * @param      action       The action.
          */
-        WideTextInternalStruct(TextProvider& _textProvider, uint16_t _maxWidth, TextDirection _textDirection, const Font* _font, WideTextAction action)
-            : currChar(0), textProvider(_textProvider), textDirection(_textDirection), wideTextAction(action), font(_font), maxWidth(_maxWidth), charsRead(0), width(0), charsReadAhead(0), widthAhead(0), widthWithoutWhiteSpaceAtEnd(0), ellipsisGlyphWidth(0), useEllipsis(false)
+        WideTextInternalStruct(TextProvider& textProvider, uint16_t width, uint16_t height, TextDirection direction, const Font* _font, int16_t _linespace, WideTextAction action)
+            : currChar(0), tp(textProvider), textDirection(direction), wideTextAction(action), font(_font), areaWidth(width), areaHeight(height), linespace(_linespace), charsRead(0), widthUsed(0), charsReadAhead(0), widthAhead(0), widthWithoutWhiteSpaceAtEnd(0), ellipsisGlyphWidth(0), useEllipsis(false)
         {
-            Unicode::UnicodeChar ellipsisChar = font->getEllipsisChar();
-            if (ellipsisChar != 0)
+            if (wideTextAction != WIDE_TEXT_NONE)
             {
-                const GlyphNode* ellipsisGlyph = font->getGlyph(ellipsisChar);
-                ellipsisGlyphWidth = ellipsisGlyph->advance();
-                if (wideTextAction == WIDE_TEXT_CHARWRAP_DOUBLE_ELLIPSIS)
+                Unicode::UnicodeChar ellipsisChar = font->getEllipsisChar();
+                if (ellipsisChar != 0)
                 {
-                    ellipsisGlyphWidth += font->getKerning(ellipsisChar, ellipsisGlyph) + ellipsisGlyph->advance();
+                    const GlyphNode* ellipsisGlyph = font->getGlyph(ellipsisChar);
+                    if (ellipsisGlyph != 0)
+                    {
+                        ellipsisGlyphWidth = ellipsisGlyph->advance();
+                        if (wideTextAction == WIDE_TEXT_CHARWRAP_DOUBLE_ELLIPSIS)
+                        {
+                            ellipsisGlyphWidth += font->getKerning(ellipsisChar, ellipsisGlyph) + ellipsisGlyph->advance();
+                        }
+                    }
                 }
             }
         }
-
-        /**
-         * Adds a word.
-         *
-         * @param  widthBeforeCurrChar        The width before curr character.
-         * @param  widthBeforeWhiteSpaceAtEnd The width before white space at end.
-         * @param  charsReadTooMany           The characters read too many.
-         */
-        void addWord(uint16_t widthBeforeCurrChar, uint16_t widthBeforeWhiteSpaceAtEnd, uint16_t charsReadTooMany);
 
         /**
          * Gets string length for line.
          *
          * @param  useWideTextEllipsisFlag True to use wide text ellipsis flag.
          */
-        void getStringLengthForLine(bool useWideTextEllipsisFlag);
+        void scanStringLengthForLine();
 
         /**
          * Query if 'ch' is space.
@@ -872,9 +907,9 @@ private:
         }
 
         /**
-         * Gets curr character.
+         * Gets current character.
          *
-         * @return The curr character.
+         * @return The current character.
          */
         Unicode::UnicodeChar getCurrChar() const
         {
@@ -902,29 +937,33 @@ private:
         }
 
         /**
-         * Gets use ellipsis.
+         * Determines if we ellipsis was added at end of line.
          *
-         * @return True if it succeeds, false if it fails.
+         * @return True if it succeeds (not more text), false otherwise.
          */
-        bool getUseEllipsis() const
+        bool ellipsisAtEndOfLine() const
         {
             return useEllipsis;
         }
 
     private:
         Unicode::UnicodeChar currChar;
-        TextProvider& textProvider;
+        TextProvider& tp;
         TextDirection textDirection;
         WideTextAction wideTextAction;
         const Font* font;
-        uint16_t maxWidth;
+        uint16_t areaWidth;
+        uint16_t areaHeight;
+        int16_t linespace;
         uint16_t charsRead;
-        uint16_t width;
+        uint16_t widthUsed;
         uint16_t charsReadAhead;
         uint16_t widthAhead;
         uint16_t widthWithoutWhiteSpaceAtEnd;
         uint16_t ellipsisGlyphWidth;
         bool useEllipsis;
+
+        void addWord(uint16_t widthBeforeCurrChar, uint16_t widthBeforeWhiteSpaceAtEnd, uint16_t charsReadTooMany);
     };
 };
 

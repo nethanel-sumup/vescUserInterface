@@ -1,0 +1,381 @@
+{
+  "Application": {
+    "Screens": [
+      {
+        "Name": "mainScreen",
+        "Components": [
+          {
+            "Type": "Box",
+            "Name": "main_box_",
+            "X": -1,
+            "Width": 128,
+            "Height": 128
+          },
+          {
+            "Type": "CustomContainerInstance",
+            "Name": "battery_container_",
+            "X": 2,
+            "Y": 12,
+            "Width": 44,
+            "Height": 100,
+            "CustomContainerDefinitionName": "Battery"
+          },
+          {
+            "Type": "CustomContainerInstance",
+            "Name": "speed_container_",
+            "X": 42,
+            "Width": 86,
+            "Height": 80,
+            "CustomContainerDefinitionName": "Speed"
+          },
+          {
+            "Type": "CustomContainerInstance",
+            "Name": "light_container_",
+            "X": 6,
+            "Y": 112,
+            "Width": 40,
+            "Height": 16,
+            "CustomContainerDefinitionName": "Light"
+          },
+          {
+            "Type": "CustomContainerInstance",
+            "Name": "current_container_",
+            "X": 57,
+            "Y": 82,
+            "Width": 70,
+            "Height": 20,
+            "CustomContainerDefinitionName": "Current"
+          },
+          {
+            "Type": "CustomContainerInstance",
+            "Name": "distance_container_",
+            "X": 42,
+            "Y": 107,
+            "Width": 85,
+            "Height": 20,
+            "CustomContainerDefinitionName": "DistanceCounter"
+          }
+        ],
+        "Interactions": []
+      }
+    ],
+    "CustomContainerDefinitions": [
+      {
+        "Name": "Battery",
+        "Width": 44,
+        "Height": 100,
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "battery_img",
+            "Width": 43,
+            "Height": 80,
+            "RelativeFilename": "battery.png"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "batteryText",
+            "X": 3,
+            "Y": 80,
+            "Width": 26,
+            "Height": 16,
+            "TextId": "__SingleUse_0HV2",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_ZVEE",
+              "UseBuffer": true,
+              "BufferSize": 8
+            }
+          },
+          {
+            "Type": "Box",
+            "Name": "filler",
+            "X": 3,
+            "Y": 77,
+            "Width": 37,
+            "Color": {
+              "Green": 106,
+              "Blue": 255
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "volts",
+            "X": 31,
+            "Y": 80,
+            "Width": 8,
+            "Height": 16,
+            "TextId": "__SingleUse_78C3",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetValue",
+            "Description": "Set the value of the battery",
+            "HasValue": true,
+            "ValueType": "float"
+          }
+        ]
+      },
+      {
+        "Name": "Speed",
+        "X": 42,
+        "Y": 1,
+        "Width": 86,
+        "Height": 80,
+        "Components": [
+          {
+            "Type": "TextArea",
+            "Name": "km_h",
+            "X": 50,
+            "Y": 64,
+            "Width": 31,
+            "Height": 16,
+            "TextId": "__SingleUse_BVNV",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255
+            },
+            "AutoSize": true
+          },
+          {
+            "Type": "TextArea",
+            "Name": "speedText",
+            "X": 9,
+            "Y": -16,
+            "Width": 78,
+            "Height": 80,
+            "TextId": "__SingleUse_G1TO",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_8CJL",
+              "UseBuffer": true,
+              "BufferSize": 3
+            }
+          }
+        ],
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetValue",
+            "Description": "Set the speed value in km/h",
+            "HasValue": true,
+            "ValueType": "int"
+          }
+        ]
+      },
+      {
+        "Name": "Light",
+        "X": 64,
+        "Y": 64,
+        "Width": 40,
+        "Height": 16,
+        "Components": [
+          {
+            "Type": "Image",
+            "Name": "lightImage",
+            "Width": 21,
+            "Height": 16,
+            "RelativeFilename": "light.png"
+          },
+          {
+            "Type": "TextArea",
+            "Name": "lightText",
+            "X": 25,
+            "Width": 8,
+            "Height": 16,
+            "TextId": "__SingleUse_V7E8",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetState",
+            "Description": "Set light state",
+            "HasValue": true,
+            "ValueType": "int"
+          }
+        ]
+      },
+      {
+        "Name": "Current",
+        "X": 58,
+        "Y": 64,
+        "Width": 70,
+        "Height": 20,
+        "Components": [
+          {
+            "Type": "TextArea",
+            "Name": "currentText",
+            "X": 15,
+            "Width": 43,
+            "Height": 20,
+            "TextId": "__SingleUse_YPMB",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "AutoSize": true,
+            "Wildcard1": {
+              "TextId": "__SingleUse_DHT6",
+              "UseBuffer": true,
+              "BufferSize": 8
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "unitText",
+            "X": 60,
+            "Width": 10,
+            "Height": 20,
+            "TextId": "__SingleUse_Y3MH",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetCurrent",
+            "Description": "",
+            "HasValue": true,
+            "ValueType": "float"
+          }
+        ]
+      },
+      {
+        "Name": "DistanceCounter",
+        "X": 43,
+        "Y": 108,
+        "Width": 85,
+        "Height": 20,
+        "Components": [
+          {
+            "Type": "TextArea",
+            "Name": "distanceText",
+            "Width": 65,
+            "Height": 20,
+            "TextId": "__SingleUse_JC55",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255,
+              "Blue": 255
+            },
+            "Wildcard1": {
+              "TextId": "__SingleUse_O6PL",
+              "UseBuffer": true,
+              "BufferSize": 20
+            }
+          },
+          {
+            "Type": "TextArea",
+            "Name": "unitText",
+            "X": 65,
+            "Width": 20,
+            "Height": 20,
+            "TextId": "__SingleUse_6R3C",
+            "TextRotation": "0",
+            "Color": {
+              "Red": 255,
+              "Green": 255
+            },
+            "AutoSize": true
+          }
+        ],
+        "Interactions": [],
+        "CustomActions": [
+          {
+            "Name": "SetValue",
+            "Description": "Distance counter (in km)",
+            "HasValue": true,
+            "ValueType": "float"
+          }
+        ]
+      }
+    ],
+    "Name": "MyApplication",
+    "Resolution": {
+      "Width": 128,
+      "Height": 128
+    },
+    "SelectedColorDepth": 16,
+    "StartupScreenName": "mainScreen",
+    "SelectedStartupLanguage": "GB",
+    "Skin": "Blue",
+    "TouchGfxPath": "../Middlewares/ST/touchgfx",
+    "UIPath": ".",
+    "AvailableColorDepths": [
+      16
+    ],
+    "AvailableLCDs": {
+      "16": "LCD16bpp"
+    },
+    "AvailableSections": [
+      "ExtFlashSection",
+      "IntFlashSection"
+    ],
+    "AvailableResolutions": [
+      {
+        "Width": 128,
+        "Height": 128
+      }
+    ],
+    "PhysicalButtons": [],
+    "FrameworkFeatures": {
+      "LCD16bpp": {
+        "Id": "LCD16bpp",
+        "Features": [
+          {
+            "Id": "RGB565",
+            "IsEnabled": true
+          }
+        ]
+      }
+    },
+    "GenerateAssetsCommand": "make -f simulator/gcc/Makefile assets -j8",
+    "PostGenerateCommand": "touchgfx update_project --project-file=simulator/msvs/Application.vcxproj",
+    "PostGenerateTargetCommand": "touchgfx update_project --project-file=../vescCustomUI.ioc --platform=m4",
+    "CompileSimulatorCommand": "make -f simulator/gcc/Makefile -j8",
+    "RunSimulatorCommand": "build\\bin\\simulator.exe",
+    "LandscapeSkinX": 0,
+    "LandscapeSkinY": 0,
+    "PortraitSkinX": 0,
+    "PortraitSkinY": 0,
+    "DisplayOrientation": "Portrait",
+    "Family": "STM32F4"
+  },
+  "Version": "4.18.0"
+}

@@ -290,10 +290,16 @@
 #define MCCONF_FOC_OBSERVER_OFFSET		-1.0	// Observer offset in timer update cycles
 #endif
 #ifndef MCCONF_FOC_DUTY_DOWNRAMP_KP
-#define MCCONF_FOC_DUTY_DOWNRAMP_KP		10.0	// PI controller for duty control when decreasing the duty
+#define MCCONF_FOC_DUTY_DOWNRAMP_KP		50.0	// PI controller for duty control when decreasing the duty
 #endif
 #ifndef MCCONF_FOC_DUTY_DOWNRAMP_KI
-#define MCCONF_FOC_DUTY_DOWNRAMP_KI		200.0	// PI controller for duty control when decreasing the duty
+#define MCCONF_FOC_DUTY_DOWNRAMP_KI		1000.0	// PI controller for duty control when decreasing the duty
+#endif
+#ifndef MCCONF_FOC_START_CURR_DEC
+#define MCCONF_FOC_START_CURR_DEC		1.0	// Decrease current to this fraction at start
+#endif
+#ifndef MCCONF_FOC_START_CURR_DEC_RPM
+#define MCCONF_FOC_START_CURR_DEC_RPM	2500.0	// At this RPM the full current is available
 #endif
 #ifndef MCCONF_FOC_OPENLOOP_RPM
 #define MCCONF_FOC_OPENLOOP_RPM			1500.0	// Openloop RPM (sensorless low speed or when finding index pulse)
@@ -312,6 +318,12 @@
 #endif
 #ifndef MCCONF_FOC_SL_OPENLOOP_TIME
 #define MCCONF_FOC_SL_OPENLOOP_TIME		0.05	// Time to remain in openloop after ramping (s)
+#endif
+#ifndef MCCONF_FOC_SL_OPENLOOP_BOOST_Q
+#define MCCONF_FOC_SL_OPENLOOP_BOOST_Q	0.0		// Q-axis current boost during the open loop procedure
+#endif
+#ifndef MCCONF_FOC_SL_OPENLOOP_MAX_Q
+#define MCCONF_FOC_SL_OPENLOOP_MAX_Q	-1.0		// Q-axis maximum current during the open loop procedure
 #endif
 #ifndef MCCONF_FOC_SL_OPENLOOP_T_LOCK
 #define MCCONF_FOC_SL_OPENLOOP_T_LOCK	0.0		// Time to lock motor in beginning of open loop sequence
@@ -355,8 +367,11 @@
 #ifndef MCCONF_FOC_SAMPLE_HIGH_CURRENT
 #define MCCONF_FOC_SAMPLE_HIGH_CURRENT	false	// High current sampling mode (requires three shunts)
 #endif
+#ifndef MCCONF_FOC_SAT_COMP_MODE
+#define MCCONF_FOC_SAT_COMP_MODE		SAT_COMP_LAMBDA		// Stator saturation compensation mode
+#endif
 #ifndef MCCONF_FOC_SAT_COMP
-#define MCCONF_FOC_SAT_COMP				0.0		// Stator saturation compensation
+#define MCCONF_FOC_SAT_COMP				0.0		// Stator saturation compensation factor
 #endif
 #ifndef MCCONF_FOC_TEMP_COMP
 #define MCCONF_FOC_TEMP_COMP			false	// Motor temperature compensation
@@ -371,7 +386,7 @@
 #define MCCONF_FOC_CC_DECOUPLING		FOC_CC_DECOUPLING_DISABLED // Current controller decoupling
 #endif
 #ifndef MCCONF_FOC_OBSERVER_TYPE
-#define MCCONF_FOC_OBSERVER_TYPE		FOC_OBSERVER_ORTEGA_ORIGINAL // Position observer type for FOC
+#define MCCONF_FOC_OBSERVER_TYPE		FOC_OBSERVER_MXLEMMING_LAMBDA_COMP // Position observer type for FOC
 #endif
 #ifndef MCCONF_FOC_HFI_VOLTAGE_START
 #define MCCONF_FOC_HFI_VOLTAGE_START	20 // HFI voltage at start when resolving ambiguity
@@ -379,14 +394,20 @@
 #ifndef MCCONF_FOC_HFI_VOLTAGE_RUN
 #define MCCONF_FOC_HFI_VOLTAGE_RUN		4 // HFI voltage during tracking
 #endif
+#ifndef MCCONF_FOC_HFI_GAIN
+#define MCCONF_FOC_HFI_GAIN				0.3 // Correction gain for HFI V2
+#endif
+#ifndef MCCONF_FOC_HFI_HYST
+#define MCCONF_FOC_HFI_HYST				0.0 // Sense vector offset hysteresis for HFI V2
+#endif
 #ifndef MCCONF_FOC_HFI_VOLTAGE_MAX
-#define MCCONF_FOC_HFI_VOLTAGE_MAX		10 // HFI voltage during tracking at max current
+#define MCCONF_FOC_HFI_VOLTAGE_MAX		6 // HFI voltage during tracking at max current
 #endif
 #ifndef MCCONF_FOC_SL_ERPM_HFI
-#define MCCONF_FOC_SL_ERPM_HFI			2000.0	// ERPM above which only the observer is used
+#define MCCONF_FOC_SL_ERPM_HFI			3000.0	// ERPM above which only the observer is used
 #endif
 #ifndef MCCONF_FOC_HFI_START_SAMPLES
-#define MCCONF_FOC_HFI_START_SAMPLES	15 // Sample this often at start to resolve ambiguity
+#define MCCONF_FOC_HFI_START_SAMPLES	5 // Sample this often at start to resolve ambiguity
 #endif
 #ifndef MCCONF_FOC_HFI_OBS_OVR_SEC
 #define MCCONF_FOC_HFI_OBS_OVR_SEC		0.001 // Continue using observer for this long when entering HFI speed
@@ -427,6 +448,9 @@
 #ifndef MCCONF_FOC_PHASE_FILTER_ENABLE
 #define MCCONF_FOC_PHASE_FILTER_ENABLE	true // Use phase voltage filters when available
 #endif
+#ifndef MCCONF_FOC_PHASE_FILTER_DISABLE_FAULT
+#define MCCONF_FOC_PHASE_FILTER_DISABLE_FAULT	true // Disable phase filter fault code
+#endif
 #ifndef MCCONF_FOC_PHASE_FILTER_MAX_ERPM
 #define MCCONF_FOC_PHASE_FILTER_MAX_ERPM	4000.0 // Use phase filter up to this ERPM
 #endif
@@ -444,6 +468,9 @@
 #endif
 #ifndef MCCONF_FOC_FW_Q_CURRENT_FACTOR
 #define MCCONF_FOC_FW_Q_CURRENT_FACTOR	0.02 // Factor of the FW-current to feed to the Q-axis to slow motor down when setting 0 current
+#endif
+#ifndef MCCONF_FOC_SPEED_SOURCE
+#define MCCONF_FOC_SPEED_SOURCE			SPEED_SRC_OBSERVER // Position source for speed trackers
 #endif
 
 // GPD
@@ -476,20 +503,23 @@
 #ifndef MCCONF_M_ENCODER_COUNTS
 #define MCCONF_M_ENCODER_COUNTS			8192	// The number of encoder counts
 #endif
-#ifndef MCCONF_FOC_ENCODER_SIN_GAIN
-#define MCCONF_FOC_ENCODER_SIN_GAIN		1.0		// Sine error gain of the sin/cos encoder
+#ifndef MCCONF_M_ENCODER_SIN_AMP
+#define MCCONF_M_ENCODER_SIN_AMP		1.0	// Sine amplitude
 #endif
-#ifndef MCCONF_FOC_ENCODER_SIN_OFFSET
-#define MCCONF_FOC_ENCODER_SIN_OFFSET		1.65	// Sine offset of the sin/cos encoder
+#ifndef MCCONF_M_ENCODER_SIN_OFFSET
+#define MCCONF_M_ENCODER_SIN_OFFSET		1.65 // Sine offset of the sin/cos encoder
 #endif
-#ifndef MCCONF_FOC_ENCODER_COS_GAIN
-#define MCCONF_FOC_ENCODER_COS_GAIN		1.0		// Cosine error gain of the sin/cos encoder
+#ifndef MCCONF_M_ENCODER_COS_AMP
+#define MCCONF_M_ENCODER_COS_AMP		1.0	// Cosine amplitude
 #endif
-#ifndef MCCONF_FOC_ENCODER_COS_OFFSET
-#define MCCONF_FOC_ENCODER_COS_OFFSET		1.65	// Cosine offset of the sin/cos encoder
+#ifndef MCCONF_M_ENCODER_COS_OFFSET
+#define MCCONF_M_ENCODER_COS_OFFSET		1.65 // Cosine offset of the sin/cos encoder
 #endif
-#ifndef MCCONF_FOC_ENCODER_SINCOS_FILTER
-#define MCCONF_FOC_ENCODER_SINCOS_FILTER	0.5		// Sin/Cos Encoder signal filter constant
+#ifndef MCCONF_M_ENCODER_SINCOS_FILTER
+#define MCCONF_M_ENCODER_SINCOS_FILTER	0.5		// Sin/Cos Encoder signal filter constant
+#endif
+#ifndef MCCONF_M_ENCODER_SINCOS_PHASE
+#define MCCONF_M_ENCODER_SINCOS_PHASE		0.0		// Sin/Cos Encoder signal phase correction
 #endif
 #ifndef MCCONF_M_SENSOR_PORT_MODE
 #define MCCONF_M_SENSOR_PORT_MODE		SENSOR_PORT_MODE_HALL // The mode of the hall_encoder port
@@ -524,8 +554,17 @@
 #ifndef MCCONF_M_PTC_MOTOR_COEFF
 #define MCCONF_M_PTC_MOTOR_COEFF		0.61 // %/K coefficient for motor PTC sensor
 #endif
+#ifndef MCCONF_M_NTCX_PTCX_RES
+#define MCCONF_M_NTCX_PTCX_RES			10000.0 // Custom NTC/PTC resistance
+#endif
+#ifndef MCCONF_M_NTCX_PTCX_BASE_TEMP
+#define MCCONF_M_NTCX_PTCX_BASE_TEMP	25.0 // Custom NTC/PTC base temperature
+#endif
 #ifndef MCCONF_M_HALL_EXTRA_SAMPLES
 #define MCCONF_M_HALL_EXTRA_SAMPLES		1 // Extra samples for filtering when reading hall sensors
+#endif
+#ifndef MCCONF_M_BATT_FILTER_CONST
+#define MCCONF_M_BATT_FILTER_CONST		45 // Battery level filter constant
 #endif
 
 // Setup Info
@@ -554,6 +593,9 @@
 // BMS
 #ifndef MCCONF_BMS_TYPE
 #define MCCONF_BMS_TYPE					BMS_TYPE_VESC
+#endif
+#ifndef MCCONF_BMS_LIMIT_MODE
+#define MCCONF_BMS_LIMIT_MODE			3
 #endif
 #ifndef MCCONF_BMS_T_LIMIT_START
 #define MCCONF_BMS_T_LIMIT_START		45

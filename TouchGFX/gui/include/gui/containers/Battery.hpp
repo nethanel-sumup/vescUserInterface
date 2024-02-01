@@ -5,8 +5,8 @@
 class Battery : public BatteryBase
 {
 private:
-	static constexpr const float kMaxLevel = 53.5; // Maximum battery voltage (assuming a 10s battery)
-	static constexpr const float kMinLevel = 48.0; // Minimum battery voltage (assuming a 10s battery)
+	static constexpr const float kMaxLevel = 53.5; // Maximum battery voltage (assuming a 13s battery)
+	static constexpr const float kMinLevel = 48.0; // Minimum battery voltage (assuming a 13s battery)
 	static constexpr const float kWorkRange = kMaxLevel - kMinLevel; // Working amplitude of the battery
 	static constexpr const int kMaxFillerHeight = 67; // Maximum battery filler height, in pixels
 	static constexpr const int kMinPositionY = 10; // Minimum Y position of battery filler

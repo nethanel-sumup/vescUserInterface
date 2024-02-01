@@ -238,8 +238,6 @@ void bldc_interface_process_packet(unsigned char *data, unsigned int len)
       appconf.controller_id = data[ind++];
       appconf.timeout_msec = buffer_get_uint32(data, &ind);
       appconf.timeout_brake_current = buffer_get_float32_auto(data, &ind);
-      appconf.send_can_status = data[ind++];
-      appconf.send_can_status_rate_hz = buffer_get_uint16(data, &ind);
       appconf.can_baud_rate = data[ind++];
 
       appconf.app_to_use = data[ind++];
@@ -270,8 +268,6 @@ void bldc_interface_process_packet(unsigned char *data, unsigned int len)
       appconf.app_adc_conf.voltage2_end = buffer_get_float32_auto(data, &ind);
       appconf.app_adc_conf.use_filter = data[ind++];
       appconf.app_adc_conf.safe_start = data[ind++];
-      appconf.app_adc_conf.cc_button_inverted = data[ind++];
-      appconf.app_adc_conf.rev_button_inverted = data[ind++];
       appconf.app_adc_conf.voltage_inverted = data[ind++];
       appconf.app_adc_conf.voltage2_inverted = data[ind++];
       appconf.app_adc_conf.throttle_exp = buffer_get_float32_auto(data, &ind);

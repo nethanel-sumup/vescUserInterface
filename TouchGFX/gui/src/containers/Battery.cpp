@@ -15,6 +15,11 @@ void Battery::SetValue(float value)
 {
   Unicode::snprintfFloat(batteryTextBuffer, BATTERYTEXT_SIZE, "%.1f", value);
   int16_t height = (kMaxFillerHeight * (((value - kMinLevel) * 100) / kWorkRange)) / 100;
+  // Limit filler height
+  if (height > kMaxFillerHeight)
+  {
+    height = kMaxFillerHeight;
+  }
   int16_t posY = kMaxFillerHeight + kMinPositionY - (height);
 
   if (height > kGreenZoneStart)
